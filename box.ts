@@ -8,19 +8,21 @@ namespace box {
     }
 
 
-    enum PushedResult {
+    export enum PushedResult {
 
         NOT_MOVED, 
         MOVED,
         PARENT_CHANGED
     }
 
+   
+
     export abstract class AbstractBox implements Box {
        
         protected _column: number;
         protected _row: number;
 
-        protected sprite:Sprite
+        sprite:Sprite
 
         abstract bePushedAgainst(box: Box, direction: number): PushedResult;
         protected constructor(column : number, row: number) {
@@ -33,6 +35,30 @@ namespace box {
         }
         public row() {
             return this._row
+        }
+
+    }
+
+    export class PlayerBox extends AbstractBox {
+
+        public constructor(protected containingBox:SubBox, column: number, row: number) {
+            super(column, row)
+            this.sprite = sprites.create(assets.image`playerBoxNormal`)
+            scene.cameraFollowSprite(this.sprite)
+        }
+
+        public bePushedAgainst(box: Box, direction: number): PushedResult {
+            let result = this.containingBox.boxBeingPushed(this, direction) 
+            if (result == PushedResult.MOVED) {
+                let directionVector = DIRECTION_VECTORS[direction]
+                this._column += directionVector[0]
+                this._row += directionVector[1]
+                this.sprite.x += directionVector[0] * 16
+                this.sprite.y += directionVector[1] * 16
+            } else if (result == PushedResult.PARENT_CHANGED) {
+                this.containingBox.load()
+            }
+            return result
         }
 
     }
@@ -72,7 +98,7 @@ namespace box {
         public load() {
             tiles.setCurrentTilemap(this.internalTilemap.tilemap);
             let startTile = tiles.getTilesByType(assets.tile`startTile`)[0];
-            tiles.placeOnTile(playerSprite, startTile)
+            tiles.placeOnTile(playerBox.sprite, startTile)
             tiles.setTileAt(startTile, sprites.dungeon.floorDark0)
         }
 

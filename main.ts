@@ -1,6 +1,7 @@
 function onDirectionButtonDown (direction: number) {
-
-	
+    if (playerBox.bePushedAgainst(null, direction)== PushedResult.NOT_MOVED) {
+        scene.cameraShake(4, 500)
+    }
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     onDirectionButtonDown(0)
@@ -31,11 +32,10 @@ DOWN,
 LEFT
 ]
 info.setScore(0)
-let playerSprite = sprites.create(assets.image`myImage`, SpriteKind.Player)
-scene.cameraFollowSprite(playerSprite)
 
 
 let level1Box = new box.SubBox(null, 0,0,assets.tilemap`level0`) 
+let playerBox = new box.PlayerBox(level1Box, 0, 0)
 level1Box.load();
 let currentBox = level1Box;
 
