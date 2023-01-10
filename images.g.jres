@@ -1,0 +1,22 @@
+{
+    "image1": {
+        "data": "hwQQABAAAAAAIiIiIiIiIiAiIjIyIiIiIiIiMjIiIiIiIyIyMiIiIiIjIiIyIiIiIiMiIiIiIiIiIyIiIiIiIiIjIiIiIiIiIiMiIiIiIiIiIyIiIiIiIiIjIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiICIiIiIiIiIAIiIiIiIiIg==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "myImage"
+    },
+    "image2": {
+        "data": "hwQQABAAAABVVVVVVVVVVUVERERERERURURERERERFRFREREREREVEVERERERERURURERERERFRFREREREREVEVERERERERURURERERERFRFREREREREVEVERERERERURURERERERFRFREREREREVEVERERERERURURERERERFRVVVVVVVVVVQ==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "basicBoxNormal"
+    },
+    "image3": {
+        "data": "hwQQABAAAADd3d3d3d3d3U1ERERERETUTURERERERNRNRERERERE1E1ERERERETUTURERERERNRNRERERERE1E1ERERERETUTURERERERNRNRERERERE1E1ERERERETUTURERERERNRNRERERERE1E1ERERERETUTURERERERNTd3d3d3d3d3Q==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "basicBoxInPlace"
+    },
+    "*": {
+        "mimeType": "image/x-mkcd-f4",
+        "dataEncoding": "base64",
+        "namespace": "myImages"
+    }
+}
