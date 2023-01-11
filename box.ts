@@ -5,6 +5,7 @@ namespace box {
         row(): number;
 
         bePushedAgainst(box: Box, direction: number): PushedResult;
+        place(column:number, row:number) : void;
     }
 
 
@@ -17,14 +18,22 @@ namespace box {
 
    
 
-    export abstract class AbstractBox implements Box {
+    export class AbstractBox implements Box {
        
         protected _column: number;
         protected _row: number;
 
         sprite:Sprite
 
-        abstract bePushedAgainst(box: Box, direction: number): PushedResult;
+        public place(column:number, row:number):void {
+            this._column = column
+            this._row = row
+            tiles.placeOnTile(this.sprite, tiles.getTileLocation(column, row))
+        }
+
+        public bePushedAgainst(box: Box, direction: number): PushedResult {
+            return PushedResult.NOT_MOVED
+        }
         protected constructor(column : number, row: number) {
             this._column = column
             this._row = row
@@ -92,13 +101,14 @@ namespace box {
         
         public constructor(protected containingBox: SubBox, column: number, row: number, tilemap : tiles.TileMapData) {
             super(column , row)
+            this.boxes = []
             this.internalTilemap = tiles.createMap(tilemap)
         }
 
         public load() {
             tiles.setCurrentTilemap(this.internalTilemap.tilemap);
             let startTile = tiles.getTilesByType(assets.tile`startTile`)[0];
-            tiles.placeOnTile(playerBox.sprite, startTile)
+            playerBox.place(startTile.col, startTile.row)
             tiles.setTileAt(startTile, sprites.dungeon.floorDark0)
         }
 

@@ -1,5 +1,5 @@
 function onDirectionButtonDown (direction: number) {
-    if (playerBox.bePushedAgainst(null, direction)== PushedResult.NOT_MOVED) {
+    if (playerBox.bePushedAgainst(null, direction)== box.PushedResult.NOT_MOVED) {
         scene.cameraShake(4, 500)
     }
 }
@@ -32,12 +32,13 @@ DOWN,
 LEFT
 ]
 info.setScore(0)
+let playerBox:box.Box = null
+let currentBox:box.Box = null
 
-
-let level1Box = new box.SubBox(null, 0,0,assets.tilemap`level0`) 
-let playerBox = new box.PlayerBox(level1Box, 0, 0)
+let level1Box = new box.SubBox(null, 0,0, assets.tilemap`level0`) 
+playerBox = new box.PlayerBox(level1Box, 0, 0)
 level1Box.load();
-let currentBox = level1Box;
+// let currentBox = level1Box;
 
 
 function _getCurrentBox():box.Box {
