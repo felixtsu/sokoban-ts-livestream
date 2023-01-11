@@ -1,26 +1,4 @@
-function onDirectionButtonDown (direction: number) {
-    if (playerBox.bePushedAgainst(null, direction)== box.PushedResult.NOT_MOVED) {
-        scene.cameraShake(4, 500)
-    }
-}
-controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    onDirectionButtonDown(0)
-})
-controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    onDirectionButtonDown(2)
-})
-tiles.onMapLoaded(function (tilemap2) {
-	
-})
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    onDirectionButtonDown(1)
-})
-function startLevel (levelNo: number) {
-	
-}
-controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    onDirectionButtonDown(3)
-})
+
 let UP = [0, -1]
 let RIGHT = [1, 0]
 let DOWN = [0, 1]
@@ -32,15 +10,35 @@ DOWN,
 LEFT
 ]
 info.setScore(0)
-let playerBox:box.Box = null
-let currentBox:box.Box = null
 
-let level1Box = new box.SubBox(null, 0,0, assets.tilemap`level0`) 
-playerBox = new box.PlayerBox(level1Box, 0, 0)
-level1Box.load();
-// let currentBox = level1Box;
+let LEVELS:tiles.TileMapData[] = []
 
+LEVELS.push(assets.tilemap`level0`)
+LEVELS.push(assets.tilemap`level1`)
+LEVELS.push(assets.tilemap`level2`)
+LEVELS.push(assets.tilemap`level3`)
 
-function _getCurrentBox():box.Box {
-    return currentBox;
+let currentLevel = 0 
+let levelBox = new box.SubBox(null, 0,0, assets.tilemap`level0`) 
+levelBox.load();
+
+function _getCurrentBox():box.SubBox {
+    return levelBox;
 }
+
+game.onUpdateInterval(10, () => {
+    if (_getCurrentBox().isFinished()) {
+        if (currentLevel == LEVELS.length - 1) {
+            control.runInParallel(() => {
+                pause(500)
+                game.over(true)
+            })
+        } else {
+            _getCurrentBox().destroy()
+            currentLevel++
+            levelBox = new box.SubBox(null, 0, 0, LEVELS[currentLevel])
+            levelBox.load()
+        }
+        
+    }
+})
