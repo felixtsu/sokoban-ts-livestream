@@ -58,33 +58,6 @@
         "tilemapTile": true,
         "displayName": "basicBoxInPlace"
     },
-    "SubBoxInLevel1": {
-        "id": "SubBoxInLevel1",
-        "mimeType": "application/mkcd-tilemap",
-        "data": "MTAwYTAwMGEwMDAwMDAwMDAwMDAwMTAwMDAwMDAwMDAwMDAwMDAwMzAyMDMwMDAwMDAwMDAwMDAwMDAzMDIwMzAwMDAwMDAwMDAwMDAwMDMwMjAzMDAwMDAwMDAwMzAzMDMwMzAyMDMwMDAwMDAwMTAyMDIwMjAyMDIwMzAwMDAwMDAwMDMwMzAzMDIwMjAzMDAwMDAwMDAwMDAwMDMwMzAzMDMwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjAyMDAwMDAwMDIwMjAwMDAwMDAyMDIwMDIwMjIwMjAyMDAwMDAwMDAwMjAwMjAyMjAwMDIwMDAwMjAyMjAyMDAwMDAwMDAwMDAwMDAwMDAwMDAwMA==",
-        "tileset": [
-            "myTiles.transparency16",
-            "myTiles.tile5",
-            "sprites.dungeon.floorDark2",
-            "myTiles.tile6"
-        ],
-        "displayName": "SubBoxInLevel4"
-    },
-    "级别3": {
-        "id": "级别3",
-        "mimeType": "application/mkcd-tilemap",
-        "data": "MTAwYzAwMGEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNTA1MDUwMDAwMDAwMDAwMDAwMDAwMDAwNTAyMDUwMDAwMDUwNTA1MDUwNTA1MDUwNTAzMDUwMDAwMDUwMzA2MDQwMTAzMDMwMzAzMDUwMDAwMDUwMzAzMDUwNTA1MDUwNTAzMDUwMDAwMDUwMzAzMDUwMDAwMDAwNTAzMDUwMDAwMDUwMzAzMDUwMDAwMDAwNTAyMDUwMDAwMDUwNTA1MDUwMDAwMDAwNTA1MDUwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjIwMjAwMDAwMDAwMDIwMjIwMjIyMjIyMDIwMjIwMDAyMjAwMDAwMjIwMDAyMjIyMDIwMjIwMDAwMjAwMDIwMjIwMDAwMjAwMDIwMjIwMjIwMjAwMjIwMjAwMDAwMDAwMDAwMA==",
-        "tileset": [
-            "myTiles.transparency16",
-            "myTiles.tile3",
-            "myTiles.tile1",
-            "sprites.dungeon.floorDark2",
-            "sprites.dungeon.stairLadder",
-            "myTiles.tile6",
-            "myTiles.tile7"
-        ],
-        "displayName": "level4"
-    },
     "级别2": {
         "id": "级别2",
         "mimeType": "application/mkcd-tilemap",
@@ -138,6 +111,33 @@
             "myTiles.tile8"
         ],
         "displayName": "level3"
+    },
+    "级别3": {
+        "id": "级别3",
+        "mimeType": "application/mkcd-tilemap",
+        "data": "MTAwYzAwMGEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNDA0MDQwMDAwMDAwMDAwMDAwMDAwMDAwNDAyMDQwMDAwMDQwNDA0MDQwNDA0MDQwNDAzMDQwMDAwMDQwMzA1MDYwMTAzMDMwMzAzMDQwMDAwMDQwMzAzMDQwNDA0MDQwNDAzMDQwMDAwMDQwMzAzMDQwMDAwMDAwNDAzMDQwMDAwMDQwMzAzMDQwMDAwMDAwNDAyMDQwMDAwMDQwNDA0MDQwMDAwMDAwNDA0MDQwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjIwMjAwMDAwMDAwMDIwMjIwMjIyMjIyMDIwMjIwMDAwMDAwMDAwMjIwMDAyMjIyMDIwMjIwMDAwMjAwMDIwMjIwMDAwMjAwMDIwMjIwMjIwMjAwMjIwMjAwMDAwMDAwMDAwMA==",
+        "tileset": [
+            "myTiles.transparency16",
+            "myTiles.tile3",
+            "myTiles.tile1",
+            "sprites.dungeon.floorDark2",
+            "myTiles.tile6",
+            "myTiles.tile7",
+            "myTiles.tile8"
+        ],
+        "displayName": "level4"
+    },
+    "SubBoxInLevel1": {
+        "id": "SubBoxInLevel1",
+        "mimeType": "application/mkcd-tilemap",
+        "data": "MTAwYTAwMGEwMDAwMDAwMDAwMDAwMTAwMDAwMDAwMDAwMDAwMDAwMzAyMDMwMDAwMDAwMDAwMDAwMDAzMDIwMzAwMDAwMDAwMDAwMDAwMDMwMjAzMDAwMDAwMDAwMzAzMDMwMzAyMDMwMDAwMDAwMTAyMDIwMjAyMDIwMzAwMDAwMDAwMDMwMzAzMDIwMjAzMDAwMDAwMDAwMDAwMDMwMzAzMDMwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjAyMDAwMDAwMDIwMjAwMDAwMDAyMDIwMDIwMjIwMjAyMDAwMDAwMDAwMjAwMjAyMjAwMDIwMDAwMjAyMjAyMDAwMDAwMDAwMDAwMDAwMDAwMDAwMA==",
+        "tileset": [
+            "myTiles.transparency16",
+            "myTiles.tile5",
+            "sprites.dungeon.floorDark2",
+            "myTiles.tile6"
+        ],
+        "displayName": "SubBoxInLevel4"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",

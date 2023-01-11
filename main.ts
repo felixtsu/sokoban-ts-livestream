@@ -20,7 +20,7 @@ LEVELS.push(assets.tilemap`level3`)
 
 let currentLevel = 0 
 let levelBox = new box.SubBox(null, 0,0, assets.tilemap`level0`) 
-levelBox.load();
+levelBox.init();
 
 function _getCurrentBox():box.SubBox {
     return levelBox;
@@ -29,15 +29,15 @@ function _getCurrentBox():box.SubBox {
 game.onUpdateInterval(10, () => {
     if (_getCurrentBox().isFinished()) {
         if (currentLevel == LEVELS.length - 1) {
-            control.runInParallel(() => {
-                pause(500)
-                game.over(true)
-            })
+            _getCurrentBox().destroy()
+            levelBox = new box.SubBox(null, 0, 0, assets.tilemap`level4`)
+            levelBox.init()
+
         } else {
             _getCurrentBox().destroy()
             currentLevel++
             levelBox = new box.SubBox(null, 0, 0, LEVELS[currentLevel])
-            levelBox.load()
+            levelBox.init()
         }
         
     }

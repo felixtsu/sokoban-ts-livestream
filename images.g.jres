@@ -14,6 +14,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "basicBoxInPlaceImage"
     },
+    "image4": {
+        "data": "hwQQABAAAACYmZmZmZmZmYmIiLi7iIioiYiIuLuIiKiJiIi4u7uLqImIiLi7u4uoiYiIuLu7i6i5u7u7u7uLqLm7u7u7u4uoubu7u7u7i6iJiIiIiIiIqImIiIiIiIioiYiIiIiIiKiJiIiIiIiIqImIiIiIiIioiYiIiIiIiKipqqqqqqqqig==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "subBoxNormalImage"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",

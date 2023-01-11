@@ -14,7 +14,8 @@
         "tilemap.g.ts",
         "box.ts",
         "images.g.jres",
-        "images.g.ts"
+        "images.g.ts",
+        "level.ts"
     ],
     "testFiles": [
         "test.ts"

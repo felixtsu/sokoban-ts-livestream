@@ -60,6 +60,25 @@ d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d
 d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
 d d d d d d d d d d d d d d d d 
 `;
+            case "image4":
+            case "subBoxNormalImage":return img`
+8 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+9 8 8 8 8 8 b b b 8 8 8 8 8 8 a 
+9 8 8 8 8 8 b b b 8 8 8 8 8 8 a 
+9 8 8 8 8 8 b b b 8 8 8 8 8 8 a 
+9 8 8 8 8 8 b b b 8 8 8 8 8 8 a 
+9 8 8 8 8 8 b b b 8 8 8 8 8 8 a 
+9 8 8 8 8 8 b b b 8 8 8 8 8 8 a 
+9 b b b b b b b b 8 8 8 8 8 8 a 
+9 b b b b b b b b 8 8 8 8 8 8 a 
+9 b b b b b b b b 8 8 8 8 8 8 a 
+9 8 8 b b b b b b 8 8 8 8 8 8 a 
+9 8 8 b b b b b b 8 8 8 8 8 8 a 
+9 8 8 b b b b b b 8 8 8 8 8 8 a 
+9 8 8 8 8 8 8 8 8 8 8 8 8 8 8 a 
+9 8 8 8 8 8 8 8 8 8 8 8 8 8 8 a 
+9 a a a a a a a a a a a a a a 8 
+`;
         }
         return null;
     })
