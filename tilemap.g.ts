@@ -99,6 +99,32 @@ namespace myTiles {
 . . . . . . . . . . 
 . . . . . . . . . . 
 `, [myTiles.transparency16,myTiles.tile5,sprites.dungeon.floorDark2,myTiles.tile6], TileScale.Sixteen);
+            case "SubBoxInLevel5":
+            case "SubBoxInLevel2":return tiles.createTilemap(hex`0a000a0000000000000100000000000000000302030000000000000003020300000000000000030203000000000303030302030000000102020202020300000000030302020203000000000003030303030000000000000000000000000000000000000000000000`, img`
+. . . . . . . . . . 
+. . . . 2 . 2 . . . 
+. . . . 2 . 2 . . . 
+. . . . 2 . 2 . . . 
+. 2 2 2 2 . 2 . . . 
+. . . . . . 2 . . . 
+. 2 2 . . . 2 . . . 
+. . 2 2 2 2 2 . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+`, [myTiles.transparency16,myTiles.tile5,sprites.dungeon.floorDark2,myTiles.tile6], TileScale.Sixteen);
+            case "level5":
+            case "level5":return tiles.createTilemap(hex`0c000a00000000000000000000000000000000000000000004040400000000000000000004030400000404040404040404030400000402050601030303030400000403030404040404030400000403030400000004030400000403030400000004020400000404040400000004040400000000000000000000000000`, img`
+. . . . . . . . . . . . 
+. . . . . . . . 2 2 2 . 
+. . . . . . . . 2 . 2 . 
+. 2 2 2 2 2 2 2 2 . 2 . 
+. 2 . . . . . . . . 2 . 
+. 2 . . 2 2 2 2 2 . 2 . 
+. 2 . . 2 . . . 2 . 2 . 
+. 2 . . 2 . . . 2 . 2 . 
+. 2 2 2 2 . . . 2 2 2 . 
+. . . . . . . . . . . . 
+`, [myTiles.transparency16,myTiles.tile3,myTiles.tile1,sprites.dungeon.floorDark2,myTiles.tile6,myTiles.tile7,myTiles.tile8], TileScale.Sixteen);
         }
         return null;
     })

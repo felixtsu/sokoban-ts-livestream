@@ -1,3 +1,51 @@
+namespace timemap_util {
+
+
+    export class Location {
+        constructor(public column : number, public row:number) {
+        }
+    };
+
+
+    export function locationsOf(tilemap:tiles.TileMapData, image:Image) : Location[] {
+        let targetIndex = getTileIndexes(tilemap, [image])[0]
+        if (targetIndex == -1) {
+            return []
+        }
+        let result = []
+        for (let row = 0 ; row < tilemap.height; row++ ) {
+            for (let column = 0; column < tilemap.width; column++ ) {
+                if (tilemap.getTile(column, row) == targetIndex) {
+                    result.push(new Location(column, row))
+                }
+            }
+        }
+        return result;
+    }
+
+
+
+    export function getTileIndexes(tilemap:tiles.TileMapData, images:Image[]) :number[]{
+        let tilesImages = tilemap.getTileset()
+        let result = []
+        for (let i = 0; i < images.length; i++) {
+            let found = false;
+            for (let tileImage of tilesImages) {
+                if (images[i] == tileImage) {
+                    result.push(i)
+                    found = true
+                    break;
+                }
+            }
+            if (!found) {
+                result.push(-1)
+            }
+        }
+        return result;
+    }
+
+}
+
 namespace box {
 
     export interface Box {
@@ -151,6 +199,9 @@ namespace box {
         private boxes:BaseBox[]
         private targetTiles : tiles.Location[]
 
+        private edgeTiles : number[][]
+
+
         removeBox(box:BaseBox) {
             this.boxes.removeElement(box)
         }
@@ -178,6 +229,29 @@ namespace box {
             if (containingBox != null) {
                 this.sprite = sprites.create(assets.image`subBoxNormalImage`)
             }
+
+            this.edgeTiles = [null, null, null, null]
+            let edgeTileImageIndex = this.getTileIndex(assets.tile`edgeTile`)
+            let tileMap = this.internalTilemap.tilemap
+            let width = tileMap.width
+            let height = tileMap.height
+            for (let i = 0 ; i < width; i++) {
+                if (this.internalTilemap.tilemap.getTile(i, 0) == edgeTileImageIndex) {
+                     this.edgeTiles[0] = [i, 0]
+                }
+                if (this.internalTilemap.tilemap.getTile(i, height - 1) == edgeTileImageIndex) {
+                    this.edgeTiles[2] = [i, height - 1]
+                }
+            }
+
+            for (let i = 0; i < height; i++) {
+                if (this.internalTilemap.tilemap.getTile(0, i) == edgeTileImageIndex) {
+                    this.edgeTiles[3] = [0, i]
+                }
+                if (this.internalTilemap.tilemap.getTile(width - 1, i) == edgeTileImageIndex) {
+                    this.edgeTiles[1] = [width - 1, i]
+                }
+            }
             
             
         }
@@ -203,6 +277,8 @@ namespace box {
         }
 
         public tryToLeave(box: Box, destination : Box, direction: number): PushedResult{
+            let originalColumn = box.column()
+            let originalRow = box.row()
             box.changeParent(destination)
 
             let directionVector = DIRECTION_VECTORS[direction]
@@ -213,6 +289,8 @@ namespace box {
             if (result == PushedResult.MOVED) {
                 return PushedResult.PARENT_CHANGED
             } else {
+                box.changeParent(this)
+                box.place(originalColumn, originalRow)
                 return result
             }
         }
@@ -222,7 +300,8 @@ namespace box {
             // todo 
             // 1. different entrance according enter direction 
             // 2. decide can enter or not
-            box.place(0, 5)
+            let edgeTileOfDirection = this.edgeTiles[(direction+2) % 4] // enter in the opposite edge
+            box.place(edgeTileOfDirection[0], edgeTileOfDirection[1])
             box.bePushedAgainst(null, direction)
             return PushedResult.PARENT_CHANGED
         }
@@ -235,12 +314,12 @@ namespace box {
                 box.show()
                 box.place(box.column(), box.row())
             }
-
         }
         
 
         public init() {
             tiles.setCurrentTilemap(this.internalTilemap.tilemap);
+    
             let startTiles = tiles.getTilesByType(assets.tile`startTile`)
             if (startTiles.length > 0) {
                 let startTile = startTiles[0];
@@ -261,7 +340,7 @@ namespace box {
             for (let subBoxTile of subBoxesTiles) {
                 // TODO 
                 // 1. load level config by meta-data
-                let subBox = new box.SubBox(this, subBoxTile.column, subBoxTile.row, assets.tilemap`SubBoxInLevel4`)
+                let subBox = new box.SubBox(this, subBoxTile.column, subBoxTile.row, assets.tilemap`SubBoxInLevel5`)
                 subBox.place(subBoxTile.column, subBoxTile.row)
                 this.boxes.push(subBox)
                 tiles.setTileAt(subBoxTile, sprites.dungeon.floorDark2)
