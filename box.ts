@@ -518,7 +518,8 @@ namespace box {
                 this.place(this.column(), this.row())
                 return result;
             }  else {
-                return result;
+                this.hide()
+                return PushedResult.MOVED
             }
         }
         
