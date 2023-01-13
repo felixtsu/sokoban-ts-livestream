@@ -3,8 +3,6 @@ namespace myTiles {
     //% fixedInstance jres blockIdentity=images._tile
     export const transparency16 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
-    export const tile6 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
     export const tile7 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile2 = image.ofBuffer(hex``);
@@ -20,11 +18,15 @@ namespace myTiles {
     export const tile9 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile1 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile10 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile6 = image.ofBuffer(hex``);
 
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
             case "SubBoxInLevel4":
-            case "SubBoxInLevel1":return tiles.createTilemap(hex`0a000a0000000000000100000000000000000302030000000000000003020300000000000000030203000000000303030302030000000102020202020300000000030303020203000000000000030303030000000000000000000000000000000000000000000000`, img`
+            case "SubBoxInLevel1":return tiles.createTilemap(hex`0a000a0000000000000100000000000303030302030303000003030303020303030000030303030203030300000303030302030303000102020202020303030000030303020203030300000303030303030303000003030303030303030000000000000000000000`, img`
 . . . . . . . . . . 
 . . . . 2 . 2 . . . 
 . . . . 2 . 2 . . . 
@@ -35,9 +37,9 @@ namespace myTiles {
 . . . 2 2 2 2 . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
-`, [myTiles.transparency16,myTiles.tile5,sprites.dungeon.floorDark2,myTiles.tile6], TileScale.Sixteen);
+`, [myTiles.transparency16,myTiles.tile5,sprites.dungeon.floorDark2,myTiles.tile10], TileScale.Sixteen);
             case "SubBoxInLevel5":
-            case "SubBoxInLevel2":return tiles.createTilemap(hex`0a000a0000000000000100000000000000000302030000000000000003020300000000000000030203000000000303030302030000000102020202020300000000030302020203000000000003030303030000000000000000000000000000000000000000000000`, img`
+            case "SubBoxInLevel2":return tiles.createTilemap(hex`0a000a0000000000000100000000000303030302030300000003030303020303000000030303030203030000000303030302030300000102020202020303000000030302020203030000000303030303030300000000000000000000000000000000000000000000`, img`
 . . . . . . . . . . 
 . . . . 2 . 2 . . . 
 . . . . 2 . 2 . . . 
@@ -48,7 +50,7 @@ namespace myTiles {
 . . 2 2 2 2 2 . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
-`, [myTiles.transparency16,myTiles.tile5,sprites.dungeon.floorDark2,myTiles.tile6], TileScale.Sixteen);
+`, [myTiles.transparency16,myTiles.tile5,sprites.dungeon.floorDark2,myTiles.tile10], TileScale.Sixteen);
             case "level0":
             case "级别2":return tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000002020202020000000000020304010200000000000202020202000000000000000000000000000000000000000000000000000000000000000000`, img`
 . . . . . . . . . . 
@@ -145,8 +147,6 @@ namespace myTiles {
     helpers._registerFactory("tile", function(name: string) {
         switch(helpers.stringTrim(name)) {
             case "transparency16":return transparency16;
-            case "myTile4":
-            case "tile6":return tile6;
             case "startTile":
             case "tile7":return tile7;
             case "inPlaceBox":
@@ -163,6 +163,10 @@ namespace myTiles {
             case "tile9":return tile9;
             case "targetTile":
             case "tile1":return tile1;
+            case "myTile":
+            case "tile10":return tile10;
+            case "myTile4":
+            case "tile6":return tile6;
         }
         return null;
     })

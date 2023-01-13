@@ -21,6 +21,61 @@ namespace tilemap_util {
         return result;
     }
 
+    function renderScaledImage(source: Image, destination: Image, x: number, y: number) {
+        const tile = source
+        for (let i = 0; i < source.width; i += 1) {
+            for (let j = 0; j < source.height; j += 1) {
+                if (source.getPixel(i, j) != 0) {
+                    destination.setPixel(x + i, y + j, source.getPixel(i, j))
+                }
+            }
+        }
+    }
+
+    export function compressTilemap(tilemap:tiles.TileMapData, boxes: box.BaseBox[]) :Image{
+        if (!tilemap) {
+            return image.create(16, 16)
+        }
+
+        const numRows = tilemap.height
+        const numCols = tilemap.width
+        const tileWidth = 16 / numRows
+
+        const minimap: Image = image.create(
+            16,16)
+
+        minimap.fill(8)
+        
+        let edgeTileImageIndex = tilemap_util.getTileIndexes(tilemap, [assets.tile`edgeTile`])[0]
+
+
+        for (let r = 0; r < numRows; r++) {
+            for (let c = 0; c < numCols; c++) {
+
+                let tile:Image = null
+                for (let b of boxes) {
+                    if (b.column() == c && b.row() == r) {
+                        tile = b.getSpriteImage(false)
+                        break;
+                    }
+                }
+                if (tile==null) {
+                    const idx = tilemap.getTile(c, r)
+                    if (idx == edgeTileImageIndex) {
+                        continue
+                    }
+                    tile = tilemap.getTileImage(idx)
+                }
+        
+                const nx = c * tileWidth
+                const ny = r * tileWidth
+                renderScaledImage(tile, minimap, nx, ny);
+            }
+        }
+
+        return minimap
+    }
+
     export function getTileIndexes(tilemap:tiles.TileMapData, images:Image[]) :number[]{
         let tilesImages = tilemap.getTileset()
         let result = []
@@ -255,6 +310,10 @@ namespace box {
         addBox(box:BaseBox) {
             this.boxes.push(box)
         }
+
+        getSpriteImage(inPlace: boolean): Image { 
+            return tilemap_util.compressTilemap(this.internalTilemap.tilemap, this.boxes)
+        }
         
         public constructor(protected containingBox: SubBox, column: number, row: number, tilemap : tiles.TileMapData) {
             super(containingBox, column , row)
@@ -397,6 +456,8 @@ namespace box {
             let result = this.containingBox.boxBeingPushed(this, direction);
             if (result == PushedResult.NOT_MOVED) {
                 if (this.tryToEnter(pushingBox, direction) == PushedResult.PARENT_CHANGED) {
+                    // TODO should update sprite image according to location and status
+                    this.sprite.setImage(this.getSpriteImage(false))
                     return PushedResult.PARENT_CHANGED
                 } else {
                     return PushedResult.NOT_MOVED
