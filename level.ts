@@ -2,6 +2,12 @@
 namespace level{
 
 
+    interface Level {
+        buildBox() : box.SubBox;
+    }
+
+    
+
 
     
 

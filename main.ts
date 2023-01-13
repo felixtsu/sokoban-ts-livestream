@@ -14,12 +14,13 @@ info.setScore(0)
 let LEVELS:tiles.TileMapData[] = []
 
 LEVELS.push(assets.tilemap`level0`)
-LEVELS.push(assets.tilemap`level1`)
-LEVELS.push(assets.tilemap`level2`)
-LEVELS.push(assets.tilemap`level3`)
+// LEVELS.push(assets.tilemap`level1`)
+// LEVELS.push(assets.tilemap`level2`)
+// LEVELS.push(assets.tilemap`level3`)
 
 let currentLevel = 0 
-let levelBox = new box.SubBox(null, 0,0, assets.tilemap`level0`) 
+// let levelBox = new box.SubBox(null, 0, 0, assets.tilemap`level0`)
+let levelBox = new box.SubBox(null, 0, 0, assets.tilemap`level7`)
 levelBox.init();
 
 function _getCurrentBox():box.SubBox {
@@ -34,10 +35,11 @@ function reloadCurrentLevel() {
 controller.menu.onEvent(ControllerButtonEvent.Pressed, reloadCurrentLevel)
 
 game.onUpdateInterval(10, () => {
-    if (_getCurrentBox().isFinished()) {
+    
+    if (box.isFinished(_getCurrentBox())) {
         if (currentLevel == LEVELS.length - 1) {
             _getCurrentBox().destroy()
-            levelBox = new box.SubBox(null, 0, 0, assets.tilemap`level6`)
+            levelBox = new box.SubBox(null, 0, 0, assets.tilemap`level7`)
             levelBox.init()
         } else {
             currentLevel++

@@ -1,6 +1,16 @@
 namespace tilemap_util {
 
 
+    export function shadeImage(image : Image) {
+        for (let r = 0; r < image.width; r++) {
+            for (let c = 0; c < image.height; c++) {
+                
+
+
+            }
+        }
+    }
+
     export class Location {
         constructor(public column : number, public row:number) {}
     };
@@ -32,7 +42,7 @@ namespace tilemap_util {
         }
     }
 
-    export function compressTilemap(tilemap:tiles.TileMapData, boxes: box.BaseBox[]) :Image{
+    export function compressTilemap(tilemap:tiles.TileMapData, boxes: box.BaseBox[], omitDetail : boolean) :Image{
         if (!tilemap) {
             return image.create(16, 16)
         }
@@ -43,8 +53,6 @@ namespace tilemap_util {
 
         const minimap: Image = image.create(
             16,16)
-
-        minimap.fill(8)
         
         let edgeTileImageIndex = tilemap_util.getTileIndexes(tilemap, [assets.tile`edgeTile`])[0]
 
@@ -54,8 +62,12 @@ namespace tilemap_util {
 
                 let tile:Image = null
                 for (let b of boxes) {
+                    if (b instanceof box.SubBox && omitDetail) {
+                        continue
+                    }
+
                     if (b.column() == c && b.row() == r) {
-                        tile = b.getSpriteImage(false)
+                        tile = b.getSpriteImage(false, true)
                         break;
                     }
                 }
@@ -101,6 +113,29 @@ namespace tilemap_util {
 
 namespace box {
 
+
+    class BoxFinishedVisitor {
+
+        private visitedBoxes : box.Box[]
+
+        private allFinished = true;
+
+        public visit(box:SubBox) {
+            if (this.visitedBoxes.indexOf(box) != -1) {
+                // visited
+                return
+            } else {
+                this.visitedBoxes.push(box)
+                box.isFinished(this)
+            }
+        }
+
+    }
+
+    export function isFinished(box :SubBox) : boolean {
+        return false;
+    }
+
     export interface Box {
         column(): number;
         row(): number;
@@ -131,13 +166,13 @@ namespace box {
             this._row = row
             tiles.placeOnTile(this.sprite, tiles.getTileLocation(column, row))
             if (this.containingBox.isTargetTile(this._column, this._row)) {
-                this.sprite.setImage(this.getSpriteImage(true))
+                this.sprite.setImage(this.getSpriteImage(true, false))
             } else {
-                this.sprite.setImage(this.getSpriteImage(false))
+                this.sprite.setImage(this.getSpriteImage(false, false))
             }
         }
 
-        getSpriteImage(inPlace:boolean) :Image{ return null}
+        getSpriteImage(inPlace:boolean, omitDetail:boolean) :Image{ return null}
 
         hide() {
             this.sprite.setFlag(SpriteFlag.Invisible, true)
@@ -240,12 +275,12 @@ namespace box {
 
         public constructor(protected containingBox: SubBox, column: number, row: number) {
             super(containingBox, column, row)
-            this.sprite = sprites.create(this.getSpriteImage(false))
+            this.sprite = sprites.create(this.getSpriteImage(false, false))
             this.place(column, row)
         }
         
 
-        getSpriteImage(inPlace: boolean) {
+        getSpriteImage(inPlace: boolean, omitDetail : boolean) {
             if (inPlace) {
                 if (BasicBox.IN_PLACE_IMAGE == null) {
                     BasicBox.IN_PLACE_IMAGE = helpers.getImageByName(BasicBox.IN_PLACE_IMAGE_NAME)
@@ -311,8 +346,13 @@ namespace box {
             this.boxes.push(box)
         }
 
-        getSpriteImage(inPlace: boolean): Image { 
-            return tilemap_util.compressTilemap(this.internalTilemap.tilemap, this.boxes)
+        getSpriteImage(inPlace: boolean,  omitDetail : boolean): Image { 
+
+            let result = tilemap_util.compressTilemap(this.internalTilemap.tilemap, this.boxes, omitDetail)
+            if (inPlace) {
+                utils.shadeImage(result, 0, 0, result)
+            }
+            return result;
         }
         
         public constructor(protected containingBox: SubBox, column: number, row: number, tilemap : tiles.TileMapData) {
@@ -320,8 +360,9 @@ namespace box {
             this.boxes = []
             this.targetTiles = []
             this.internalTilemap = tiles.createMap(tilemap)
-            if (containingBox != null) {
-                this.sprite = sprites.create(assets.image`subBoxNormalImage`)
+            this.sprite = sprites.create(assets.image`subBoxNormalImage`)
+            if (containingBox == null) {
+                this.sprite.setFlag(SpriteFlag.Invisible, true)
             }
 
             this.edgeTiles = [null, null, null, null]
@@ -422,7 +463,7 @@ namespace box {
         public init() {
             tiles.loadMap(this.internalTilemap);
             
-            let commonFloor = tilemap_util.getTileIndexes(this.internalTilemap.tilemap, [sprites.dungeon.floorDark2])[0]    
+            let commonFloor = tilemap_util.getTileIndexes(this.internalTilemap.tilemap, [assets.tile`commonTile`])[0]    
             let startTiles = tilemap_util.locationsOf(this.internalTilemap.tilemap, assets.tile`startTile`)
             if (startTiles.length > 0) {
                 let startTile = startTiles[0];
@@ -445,7 +486,15 @@ namespace box {
             for (let subBoxTile of subBoxesTiles) {
                 // TODO 
                 // 1. load level config by meta-data
-                let subBox = new box.SubBox(this, subBoxTile.column, subBoxTile.row, assets.tilemap`SubBoxInLevel5`)
+                let subBox = new box.SubBox(this, subBoxTile.column, subBoxTile.row, assets.tilemap`SubBoxInLevel7`)
+
+                // loop bind
+                this._column = 4
+                this._row = 5
+                subBox.addBox(this)
+                this.containingBox = subBox
+                
+
                 subBox.place(subBoxTile.column, subBoxTile.row)
                 this.boxes.push(subBox)
                 this.internalTilemap.tilemap.setTile(subBoxTile.column, subBoxTile.row, commonFloor)
@@ -457,7 +506,7 @@ namespace box {
             if (result == PushedResult.NOT_MOVED) {
                 if (this.tryToEnter(pushingBox, direction) == PushedResult.PARENT_CHANGED) {
                     // TODO should update sprite image according to location and status
-                    this.sprite.setImage(this.getSpriteImage(false))
+                    this.sprite.setImage(this.getSpriteImage(false, false))
                     return PushedResult.PARENT_CHANGED
                 } else {
                     return PushedResult.NOT_MOVED
@@ -466,8 +515,7 @@ namespace box {
                 let directionVector = DIRECTION_VECTORS[direction]
                 this._column += directionVector[0]
                 this._row += directionVector[1]
-                this.sprite.x += directionVector[0] * 16
-                this.sprite.y += directionVector[1] * 16
+                this.place(this.column(), this.row())
                 return result;
             }  else {
                 return result;
@@ -483,12 +531,15 @@ namespace box {
             return null
         }
 
-        public isFinished() {
+
+
+        // visitor mode box should accept a visitor, remembering visitor boxes
+        public isFinished(visitor: BoxFinishedVisitor) {
 
             // check all internal boxes finished.
             for (let box of this.boxes) {
                 if (box instanceof SubBox) {
-                    if (!(box as SubBox).isFinished()) {
+                    if (!(box as SubBox).isFinished(visitor)) {
                         return false;
                     }
                 }
