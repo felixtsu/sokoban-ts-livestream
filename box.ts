@@ -1,11 +1,9 @@
-namespace timemap_util {
+namespace tilemap_util {
 
 
     export class Location {
-        constructor(public column : number, public row:number) {
-        }
+        constructor(public column : number, public row:number) {}
     };
-
 
     export function locationsOf(tilemap:tiles.TileMapData, image:Image) : Location[] {
         let targetIndex = getTileIndexes(tilemap, [image])[0]
@@ -23,22 +21,22 @@ namespace timemap_util {
         return result;
     }
 
-
-
     export function getTileIndexes(tilemap:tiles.TileMapData, images:Image[]) :number[]{
         let tilesImages = tilemap.getTileset()
         let result = []
         for (let i = 0; i < images.length; i++) {
             let found = false;
-            for (let tileImage of tilesImages) {
-                if (images[i] == tileImage) {
-                    result.push(i)
+            let image = images[i]
+            for (let j = 0; j < tilesImages.length; j++) {
+                if (image.equals(tilesImages[j])) {
+                    result.push(j)
                     found = true
                     break;
                 }
             }
             if (!found) {
-                result.push(-1)
+                tilemap.getTileset().push(image)
+                result.push(tilemap.getTileset().length - 1)
             }
         }
         return result;
@@ -64,20 +62,27 @@ namespace box {
         MOVED,
         PARENT_CHANGED
     }
-   
 
     export class BaseBox implements Box {
        
         protected _column: number;
         protected _row: number;
 
+    
         sprite:Sprite
 
         public place(column:number, row:number):void {
             this._column = column
             this._row = row
             tiles.placeOnTile(this.sprite, tiles.getTileLocation(column, row))
+            if (this.containingBox.isTargetTile(this._column, this._row)) {
+                this.sprite.setImage(this.getSpriteImage(true))
+            } else {
+                this.sprite.setImage(this.getSpriteImage(false))
+            }
         }
+
+        getSpriteImage(inPlace:boolean) :Image{ return null}
 
         hide() {
             this.sprite.setFlag(SpriteFlag.Invisible, true)
@@ -172,20 +177,41 @@ namespace box {
 
 
     export class BasicBox extends BaseBox {
+
+        private static NORMAL_IMAGE_NAME = "basicBoxNormalImage"
+        private static IN_PLACE_IMAGE_NAME = "basicBoxInPlaceImage"
+        private static NORMAL_IMAGE:Image = null
+        private static IN_PLACE_IMAGE:Image = null
+
         public constructor(protected containingBox: SubBox, column: number, row: number) {
             super(containingBox, column, row)
-            this.sprite = sprites.create(assets.image`basicBoxNormalImage`)
-            tiles.placeOnTile(this.sprite, tiles.getTileLocation(column, row))
+            this.sprite = sprites.create(this.getSpriteImage(false))
+            this.place(column, row)
         }
+        
+
+        getSpriteImage(inPlace: boolean) {
+            if (inPlace) {
+                if (BasicBox.IN_PLACE_IMAGE == null) {
+                    BasicBox.IN_PLACE_IMAGE = helpers.getImageByName(BasicBox.IN_PLACE_IMAGE_NAME)
+                }
+                return BasicBox.IN_PLACE_IMAGE
+            } else {
+                if (BasicBox.NORMAL_IMAGE == null) {
+                    BasicBox.NORMAL_IMAGE = helpers.getImageByName(BasicBox.NORMAL_IMAGE_NAME)
+                }
+                return BasicBox.NORMAL_IMAGE
+            }
+        }
+       
+
         bePushedAgainst(box: Box, direction: number): PushedResult {
             let result = this.containingBox.boxBeingPushed(this, direction)
             if (result == PushedResult.MOVED) {
                 let directionVector = DIRECTION_VECTORS[direction]
                 this._column += directionVector[0]
                 this._row += directionVector[1]
-                this.sprite.x += directionVector[0] * 16
-                this.sprite.y += directionVector[1] * 16
-                
+                this.place(this._column, this._row)               
             } else if (result == PushedResult.PARENT_CHANGED) {
                 this.sprite.setFlag(SpriteFlag.Invisible, true)
                 return PushedResult.MOVED
@@ -197,9 +223,18 @@ namespace box {
     export class SubBox extends BaseBox {
         private internalTilemap : tiles.WorldMap = null // internal
         private boxes:BaseBox[]
-        private targetTiles : tiles.Location[]
+        private targetTiles : tilemap_util.Location[]
 
         private edgeTiles : number[][]
+
+        isTargetTile(column : number, row : number) : boolean{
+            for (let targetTile of this.targetTiles) {
+                if (targetTile.column == column && targetTile.row == row) {
+                    return true;
+                }
+            }
+            return false
+        }
 
 
         removeBox(box:BaseBox) {
@@ -296,19 +331,27 @@ namespace box {
         }
 
         public tryToEnter(box : Box, direction : number) :PushedResult{
+            let originalColumn = box.column()
+            let originalRow = box.row()
             box.changeParent(this)
-            // todo 
-            // 1. different entrance according enter direction 
-            // 2. decide can enter or not
+
             let edgeTileOfDirection = this.edgeTiles[(direction+2) % 4] // enter in the opposite edge
             box.place(edgeTileOfDirection[0], edgeTileOfDirection[1])
-            box.bePushedAgainst(null, direction)
-            return PushedResult.PARENT_CHANGED
+            let result = box.bePushedAgainst(null, direction)
+            if (result == PushedResult.MOVED) {
+                return PushedResult.PARENT_CHANGED
+            } else if (result == PushedResult.NOT_MOVED) {
+                box.changeParent(this.containingBox)
+                box.place(originalColumn, originalRow)
+                return PushedResult.NOT_MOVED
+            }
+            return result;
+            
         }
 
 
         public load() {
-            tiles.setCurrentTilemap(this.internalTilemap.tilemap);
+            tiles.loadMap(this.internalTilemap);
 
             for (let box of this.boxes) {
                 box.show()
@@ -318,33 +361,35 @@ namespace box {
         
 
         public init() {
-            tiles.setCurrentTilemap(this.internalTilemap.tilemap);
-    
-            let startTiles = tiles.getTilesByType(assets.tile`startTile`)
+            tiles.loadMap(this.internalTilemap);
+            
+            let commonFloor = tilemap_util.getTileIndexes(this.internalTilemap.tilemap, [sprites.dungeon.floorDark2])[0]    
+            let startTiles = tilemap_util.locationsOf(this.internalTilemap.tilemap, assets.tile`startTile`)
             if (startTiles.length > 0) {
                 let startTile = startTiles[0];
                 let playerBox = new PlayerBox(this, startTile.column, startTile.row)
-                playerBox.place(startTile.col, startTile.row)
+                playerBox.place(startTile.column, startTile.row)
                 this.boxes.push(playerBox)
-                tiles.setTileAt(startTile, sprites.dungeon.floorDark2)
+                this.internalTilemap.tilemap.setTile(startTile.column, startTile.row, commonFloor)
             }
-            let boxesTiles = tiles.getTilesByType(assets.tile`basicBoxNormal`)
+    
+            let boxesTiles = tilemap_util.locationsOf(this.internalTilemap.tilemap, assets.tile`basicBoxNormal`)
             for (let boxTile of boxesTiles) {
-                let basicBox = new BasicBox(this, boxTile.col, boxTile.row)
-                tiles.setTileAt(boxTile, sprites.dungeon.floorDark2)
+                let basicBox = new BasicBox(this, boxTile.column, boxTile.row)
+                basicBox.place(boxTile.column, boxTile.row)
                 this.boxes.push(basicBox)
+                this.internalTilemap.tilemap.setTile(boxTile.column, boxTile.row, commonFloor)
             }
-            this.targetTiles = tiles.getTilesByType(assets.tile`targetTile`)
+            this.targetTiles = tilemap_util.locationsOf(this.internalTilemap.tilemap, assets.tile`targetTile`)
 
-            let subBoxesTiles = tiles.getTilesByType(assets.tile`subBoxTile`)
+            let subBoxesTiles = tilemap_util.locationsOf(this.internalTilemap.tilemap, assets.tile`subBoxTile`)
             for (let subBoxTile of subBoxesTiles) {
                 // TODO 
                 // 1. load level config by meta-data
                 let subBox = new box.SubBox(this, subBoxTile.column, subBoxTile.row, assets.tilemap`SubBoxInLevel5`)
                 subBox.place(subBoxTile.column, subBoxTile.row)
                 this.boxes.push(subBox)
-                tiles.setTileAt(subBoxTile, sprites.dungeon.floorDark2)
-                
+                this.internalTilemap.tilemap.setTile(subBoxTile.column, subBoxTile.row, commonFloor)
             }
         }
 
@@ -390,7 +435,7 @@ namespace box {
             
             // check this box finished
             for (let targetTile of this.targetTiles) {
-                let boxAtTargetTile = this.boxAt(targetTile.col, targetTile.row)
+                let boxAtTargetTile = this.boxAt(targetTile.column, targetTile.row)
                 if (boxAtTargetTile == null || boxAtTargetTile instanceof PlayerBox) {
                     return false
                 }

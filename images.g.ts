@@ -41,25 +41,6 @@ namespace myImages {
 5 4 4 4 4 4 4 4 4 4 4 4 4 4 4 5 
 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
 `;
-            case "image3":
-            case "basicBoxInPlaceImage":return img`
-d d d d d d d d d d d d d d d d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d 4 4 4 4 4 4 4 4 4 4 4 4 4 4 d 
-d d d d d d d d d d d d d d d d 
-`;
             case "image4":
             case "subBoxNormalImage":return img`
 8 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
@@ -78,6 +59,25 @@ d d d d d d d d d d d d d d d d
 9 8 8 8 8 8 8 8 8 8 8 8 8 8 8 a 
 9 8 8 8 8 8 8 8 8 8 8 8 8 8 8 a 
 9 a a a a a a a a a a a a a a 8 
+`;
+            case "image3":
+            case "basicBoxInPlaceImage":return img`
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 e e e e e e e e e e e e e e 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
 `;
         }
         return null;

@@ -7,8 +7,6 @@ namespace myTiles {
     //% fixedInstance jres blockIdentity=images._tile
     export const tile7 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
-    export const tile1 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
     export const tile2 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile3 = image.ofBuffer(hex``);
@@ -20,9 +18,37 @@ namespace myTiles {
     export const tile8 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile9 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile1 = image.ofBuffer(hex``);
 
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
+            case "SubBoxInLevel4":
+            case "SubBoxInLevel1":return tiles.createTilemap(hex`0a000a0000000000000100000000000000000302030000000000000003020300000000000000030203000000000303030302030000000102020202020300000000030303020203000000000000030303030000000000000000000000000000000000000000000000`, img`
+. . . . . . . . . . 
+. . . . 2 . 2 . . . 
+. . . . 2 . 2 . . . 
+. . . . 2 . 2 . . . 
+. 2 2 2 2 . 2 . . . 
+. . . . . . 2 . . . 
+. 2 2 2 . . 2 . . . 
+. . . 2 2 2 2 . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+`, [myTiles.transparency16,myTiles.tile5,sprites.dungeon.floorDark2,myTiles.tile6], TileScale.Sixteen);
+            case "SubBoxInLevel5":
+            case "SubBoxInLevel2":return tiles.createTilemap(hex`0a000a0000000000000100000000000000000302030000000000000003020300000000000000030203000000000303030302030000000102020202020300000000030302020203000000000003030303030000000000000000000000000000000000000000000000`, img`
+. . . . . . . . . . 
+. . . . 2 . 2 . . . 
+. . . . 2 . 2 . . . 
+. . . . 2 . 2 . . . 
+. 2 2 2 2 . 2 . . . 
+. . . . . . 2 . . . 
+. 2 2 . . . 2 . . . 
+. . 2 2 2 2 2 . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+`, [myTiles.transparency16,myTiles.tile5,sprites.dungeon.floorDark2,myTiles.tile6], TileScale.Sixteen);
             case "level0":
             case "级别2":return tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000002020202020000000000020304010200000000000202020202000000000000000000000000000000000000000000000000000000000000000000`, img`
 . . . . . . . . . . 
@@ -86,34 +112,21 @@ namespace myTiles {
 . 2 2 2 2 . . . 2 2 2 . 
 . . . . . . . . . . . . 
 `, [myTiles.transparency16,myTiles.tile3,myTiles.tile1,sprites.dungeon.floorDark2,myTiles.tile6,myTiles.tile7,myTiles.tile8], TileScale.Sixteen);
-            case "SubBoxInLevel4":
-            case "SubBoxInLevel1":return tiles.createTilemap(hex`0a000a0000000000000100000000000000000302030000000000000003020300000000000000030203000000000303030302030000000102020202020300000000030303020203000000000000030303030000000000000000000000000000000000000000000000`, img`
-. . . . . . . . . . 
-. . . . 2 . 2 . . . 
-. . . . 2 . 2 . . . 
-. . . . 2 . 2 . . . 
-. 2 2 2 2 . 2 . . . 
-. . . . . . 2 . . . 
-. 2 2 2 . . 2 . . . 
-. . . 2 2 2 2 . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-`, [myTiles.transparency16,myTiles.tile5,sprites.dungeon.floorDark2,myTiles.tile6], TileScale.Sixteen);
-            case "SubBoxInLevel5":
-            case "SubBoxInLevel2":return tiles.createTilemap(hex`0a000a0000000000000100000000000000000302030000000000000003020300000000000000030203000000000303030302030000000102020202020300000000030302020203000000000003030303030000000000000000000000000000000000000000000000`, img`
-. . . . . . . . . . 
-. . . . 2 . 2 . . . 
-. . . . 2 . 2 . . . 
-. . . . 2 . 2 . . . 
-. 2 2 2 2 . 2 . . . 
-. . . . . . 2 . . . 
-. 2 2 . . . 2 . . . 
-. . 2 2 2 2 2 . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-`, [myTiles.transparency16,myTiles.tile5,sprites.dungeon.floorDark2,myTiles.tile6], TileScale.Sixteen);
             case "level5":
             case "level5":return tiles.createTilemap(hex`0c000a00000000000000000000000000000000000000000004040400000000000000000004030400000404040404040404030400000402050601030303030400000403030404040404030400000403030400000004030400000403030400000004020400000404040400000004040400000000000000000000000000`, img`
+. . . . . . . . . . . . 
+. . . . . . . . 2 2 2 . 
+. . . . . . . . 2 . 2 . 
+. 2 2 2 2 2 2 2 2 . 2 . 
+. 2 . . . . . . . . 2 . 
+. 2 . . 2 2 2 2 2 . 2 . 
+. 2 . . 2 . . . 2 . 2 . 
+. 2 . . 2 . . . 2 . 2 . 
+. 2 2 2 2 . . . 2 2 2 . 
+. . . . . . . . . . . . 
+`, [myTiles.transparency16,myTiles.tile3,myTiles.tile1,sprites.dungeon.floorDark2,myTiles.tile6,myTiles.tile7,myTiles.tile8], TileScale.Sixteen);
+            case "level6":
+            case "level6":return tiles.createTilemap(hex`0c000a00000000000000000000000000000000000000000004040400000000000000000004020400000404040404040404030400000402050606010303030400000403030404040404030400000403030400000004030400000403030400000004020400000404040400000004040400000000000000000000000000`, img`
 . . . . . . . . . . . . 
 . . . . . . . . 2 2 2 . 
 . . . . . . . . 2 . 2 . 
@@ -136,8 +149,6 @@ namespace myTiles {
             case "tile6":return tile6;
             case "startTile":
             case "tile7":return tile7;
-            case "targetTile":
-            case "tile1":return tile1;
             case "inPlaceBox":
             case "tile2":return tile2;
             case "subBoxTile":
@@ -150,6 +161,8 @@ namespace myTiles {
             case "tile8":return tile8;
             case "basicBoxInPlace":
             case "tile9":return tile9;
+            case "targetTile":
+            case "tile1":return tile1;
         }
         return null;
     })
