@@ -28,8 +28,6 @@ game.onUpdateInterval(10, () => {
         currentLevel.loadLevel()
     }else if(currentLevel.isFinished()) {
         if (currentLevelNo == level.LEVELS.length - 1) {
-            // currentLevel.cleanupLevel()
-            // currentLevel.loadLevel()
             control.runInParallel(()=>{
                 pause(1000)
                 game.over(true)

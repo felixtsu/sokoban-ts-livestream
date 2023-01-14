@@ -6,6 +6,8 @@ namespace level{
         simpleTilemapLevel(assets.tilemap`level1`),
         simpleTilemapLevel(assets.tilemap`level8`),
         simpleTilemapLevel(assets.tilemap`level3`),
+        prepareLevel4(),
+        prepareLevel5(),
         prepareLevel7()
     ]
 
@@ -78,7 +80,7 @@ namespace level{
         let level = new Level()
         level.addLevelLoader((level: Level)=>{
             let mainlevelBox = new box.SubBox(null, 4, 5, assets.tilemap`level7`)
-            let subLevelBox = new box.SubBox(null, 6, 4, assets.tilemap`SubBoxInLevel7`)
+            let subLevelBox = new box.SubBox(mainlevelBox, 6, 4, assets.tilemap`SubBoxInLevel7`)
             level.registerBox(mainlevelBox)
             level.registerBox(subLevelBox)
 
@@ -90,6 +92,36 @@ namespace level{
             mainlevelBox.init()
             mainlevelBox.showAll()
         })  
+        return level
+    }
+    function prepareLevel4() {
+        let level = new Level()
+        level.addLevelLoader((level: Level) => {
+            let mainlevelBox = new box.SubBox(null, 0, 0, assets.tilemap`level10`)
+            let subLevelBox = new box.SubBox(mainlevelBox, 4, 3, assets.tilemap`subBoxLevel10`)
+            level.registerBox(mainlevelBox)
+            level.registerBox(subLevelBox)
+            subLevelBox.init()
+            mainlevelBox.addBox(subLevelBox)
+            subLevelBox.place(subLevelBox.column(), subLevelBox.row())
+            mainlevelBox.init()
+            mainlevelBox.showAll()
+        })
+        return level
+    }
+    function prepareLevel5() {
+        let level = new Level()
+        level.addLevelLoader((level: Level) => {
+            let mainlevelBox = new box.SubBox(null, 0, 0, assets.tilemap`level4`)
+            let subLevelBox = new box.SubBox(mainlevelBox, 4, 4, assets.tilemap`SubBoxInLevel4`)
+            level.registerBox(mainlevelBox)
+            level.registerBox(subLevelBox)
+            subLevelBox.init()
+            mainlevelBox.addBox(subLevelBox)
+            subLevelBox.place(subLevelBox.column(), subLevelBox.row())
+            mainlevelBox.init()
+            mainlevelBox.showAll()
+        })
         return level
     }
 
