@@ -280,11 +280,14 @@ namespace box {
                 this._column += directionVector[0]
                 this._row += directionVector[1]
                 this.place(this._column, this._row)               
+                return PushedResult.MOVED
             } else if (result == PushedResult.PARENT_CHANGED) {
                 this.sprite.setFlag(SpriteFlag.Invisible, true)
                 return PushedResult.MOVED
+            } else if ( result == PushedResult.OUT_OF_THE_CURRENT_BOX_LOOP) {
+                return PushedResult.MOVED
             }
-            return result;
+            return result
         }
     }
 
