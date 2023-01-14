@@ -2,13 +2,13 @@
 namespace level{
 
     export let LEVELS = [
-        simpleTilemapLevel(assets.tilemap`level0`),
-        simpleTilemapLevel(assets.tilemap`level1`),
-        simpleTilemapLevel(assets.tilemap`level8`),
-        simpleTilemapLevel(assets.tilemap`level3`),
-        prepareLevel4(),
-        prepareLevel5(),
-        prepareLevel6(),
+        // simpleTilemapLevel(assets.tilemap`level0`),
+        // simpleTilemapLevel(assets.tilemap`level1`),
+        // simpleTilemapLevel(assets.tilemap`level8`),
+        // simpleTilemapLevel(assets.tilemap`level3`),
+        // prepareLevel4(),
+        // prepareLevel5(),
+        // prepareLevel6(),
         prepareLevel7()
     ]
 

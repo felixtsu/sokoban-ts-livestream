@@ -229,7 +229,7 @@ namespace box {
 
         public bePushedAgainst(box: Box, direction: number): PushedResult {
             let result = this.containingBox.boxBeingPushed(this, direction) 
-            if (result == PushedResult.MOVED || result == PushedResult.OUT_OF_THE_CURRENT_BOX_LOOP) {
+            if (result == PushedResult.MOVED) {
                 let directionVector = DIRECTION_VECTORS[direction]
                 this._column += directionVector[0]
                 this._row += directionVector[1]
@@ -237,6 +237,8 @@ namespace box {
                 info.changeScoreBy(1)
             } else if (result == PushedResult.PARENT_CHANGED) {
                 this.containingBox.load()
+            } else if (result == PushedResult.OUT_OF_THE_CURRENT_BOX_LOOP) {
+                return PushedResult.MOVED
             }
             return result
         }
