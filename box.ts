@@ -118,7 +118,9 @@ namespace box {
     export enum PushedResult {
         NOT_MOVED, 
         MOVED,
-        PARENT_CHANGED
+        PARENT_CHANGED,
+        OUT_OF_THE_CURRENT_BOX_LOOP
+
     }
 
     export class BaseBox implements Box {
@@ -227,7 +229,7 @@ namespace box {
 
         public bePushedAgainst(box: Box, direction: number): PushedResult {
             let result = this.containingBox.boxBeingPushed(this, direction) 
-            if (result == PushedResult.MOVED) {
+            if (result == PushedResult.MOVED || result == PushedResult.OUT_OF_THE_CURRENT_BOX_LOOP) {
                 let directionVector = DIRECTION_VECTORS[direction]
                 this._column += directionVector[0]
                 this._row += directionVector[1]
@@ -405,13 +407,18 @@ namespace box {
             let originalRow = box.row()
             box.changeParent(destination)
 
-            let directionVector = DIRECTION_VECTORS[direction]
             let targetColumn = this.column() 
             let targetRow = this.row() 
             box.place(targetColumn, targetRow)
             let result = box.bePushedAgainst(null, direction)
             if (result == PushedResult.MOVED) {
-                return PushedResult.PARENT_CHANGED
+                if (destination == this) {
+                    // push out of the same tilemap 
+                    return PushedResult.OUT_OF_THE_CURRENT_BOX_LOOP
+                } else {
+                    return PushedResult.PARENT_CHANGED
+                }
+                
             } else {
                 box.changeParent(this)
                 box.place(originalColumn, originalRow)
@@ -478,18 +485,6 @@ namespace box {
 
             let subBoxesTiles = tilemap_util.locationsOf(this.internalTilemap.tilemap, assets.tile`subBoxTile`)
             for (let subBoxTile of subBoxesTiles) {
-                
-                // TODO 
-                // 1. load level config by meta-data
-                // let subBox = new box.SubBox(this, subBoxTile.column, subBoxTile.row, assets.tilemap`SubBoxInLevel7`)
-                // // loop bind
-                // this._column = 4
-                // this._row = 5
-                // subBox.addBox(this)
-                // this.containingBox = subBox
-                // subBox.place(subBoxTile.column, subBoxTile.row)
-                // this.boxes.push(subBox)
-
                 this.internalTilemap.tilemap.setTile(subBoxTile.column, subBoxTile.row, commonFloor)
             }
         }
@@ -510,10 +505,11 @@ namespace box {
                 this._row += directionVector[1]
                 this.place(this.column(), this.row())
                 return result;
-            }  else {
+            }  else if (result == PushedResult.PARENT_CHANGED) {
                 this.hide()
                 return PushedResult.MOVED
             }
+            return result 
         }
         
         private boxAt(column : number, row:number) :Box {
@@ -529,15 +525,6 @@ namespace box {
 
         // visitor mode box should accept a visitor, remembering visitor boxes
         public isFinished() {
-
-            // check all internal boxes finished.
-            // for (let box of this.boxes) {
-            //     if (box instanceof SubBox) {
-            //         if (!(box as SubBox).isFinished(visitor)) {
-            //             return false;
-            //         }
-            //     }
-            // }
             
             // check this box finished
             for (let targetTile of this.targetTiles) {
@@ -559,8 +546,9 @@ namespace box {
                 let result =  boxAtTarget.bePushedAgainst(pushedBox, direction)
                 if (result == PushedResult.PARENT_CHANGED) {
                     return PushedResult.PARENT_CHANGED
+                } else {
+                    return result
                 }
-                return result
             } else if (this.internalTilemap.tilemap.isWall(targetColumn, targetRow)) {
                 return PushedResult.NOT_MOVED
             } else if (this.internalTilemap.tilemap.getTile(targetColumn, targetRow) == this.getTileIndex(assets.tile`edgeEntranceTile`)
@@ -573,12 +561,13 @@ namespace box {
                     game.splash("You just invent infinity.")
                 }
 
-                if (this.tryToLeave(pushedBox, this.containingBox, direction) == PushedResult.PARENT_CHANGED) {
+                let result = this.tryToLeave(pushedBox, this.containingBox, direction)
+                if (result == PushedResult.PARENT_CHANGED) {
                     // should update sprite image
                     this.containingBox.sprite.setImage(this.containingBox.getSpriteImage(false, true))
                     return PushedResult.PARENT_CHANGED
-                }
-                return PushedResult.NOT_MOVED
+                } 
+                return result
             } else {
                 return PushedResult.MOVED
             }          

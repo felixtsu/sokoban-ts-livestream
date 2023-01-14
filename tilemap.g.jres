@@ -248,21 +248,6 @@
         ],
         "displayName": "SubBoxInLevel7"
     },
-    "level7": {
-        "id": "level7",
-        "mimeType": "application/mkcd-tilemap",
-        "data": "MTAwYzAwMGEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjAyMDIwMDAwMDAwMDAwMDAwMDAwMDAwMjAxMDIwMDAwMDIwMjAyMDIwMjAyMDIwMjA0MDIwMDA2MDQwMTAzMDUwNTA0MDQwNDA0MDIwMDAwMDIwNDA0MDIwMjAyMDIwMjA0MDIwMDAwMDIwNDA0MDIwMDAwMDAwMjA0MDIwMDAwMDIwNDA0MDIwMDAwMDAwMjAxMDIwMDAwMDIwMjAyMDIwMDAwMDAwMjAyMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjIwMjAwMDAwMDAwMDIwMjIwMjIyMjIyMDIwMjAwMDAwMDAwMDAwMjIwMDAyMjIyMDIwMjIwMDAwMjAwMDIwMjIwMDAwMjAwMDIwMjIwMjIwMjAwMjIwMjAwMDAwMDAwMDAwMA==",
-        "tileset": [
-            "myTiles.transparency16",
-            "myTiles.tile1",
-            "myTiles.tile6",
-            "myTiles.tile7",
-            "myTiles.tile11",
-            "myTiles.tile8",
-            "myTiles.tile4"
-        ],
-        "displayName": "level7"
-    },
     "subBoxLevel1": {
         "id": "subBoxLevel1",
         "mimeType": "application/mkcd-tilemap",
@@ -315,6 +300,21 @@
             "myTiles.tile4"
         ],
         "displayName": "subBoxLevel12_1"
+    },
+    "level7": {
+        "id": "level7",
+        "mimeType": "application/mkcd-tilemap",
+        "data": "MTAwYzAwMGEwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMjAyMDIwMDAwMDAwMDAwMDAwMDAwMDIwMTA0MDIwMDAwMDIwMjAyMDIwMjAyMDIwMjA0MDIwMDA2MDQwMTAzMDUwNTA0MDQwNDA0MDIwMDAwMDIwNDA0MDIwMjAyMDIwMjA0MDIwMDAwMDIwNDA0MDIwMDAwMDAwMjA0MDIwMDAwMDIwNDA0MDIwMDAwMDAwMjAxMDIwMDAwMDIwMjAyMDIwMDAwMDAwMjAyMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMjIwMjAwMDAwMDIwMDAwMjIwMjIyMjIyMDIwMjAwMDAwMDAwMDAwMjIwMDAyMjIyMDIwMjIwMDAwMjAwMDIwMjIwMDAwMjAwMDIwMjIwMjIwMjAwMjIwMjAwMDAwMDAwMDAwMA==",
+        "tileset": [
+            "myTiles.transparency16",
+            "myTiles.tile1",
+            "myTiles.tile6",
+            "myTiles.tile7",
+            "myTiles.tile11",
+            "myTiles.tile8",
+            "myTiles.tile4"
+        ],
+        "displayName": "level7"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",
