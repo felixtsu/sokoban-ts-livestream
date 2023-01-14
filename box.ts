@@ -1,16 +1,5 @@
 namespace tilemap_util {
 
-
-    export function shadeImage(image : Image) {
-        for (let r = 0; r < image.width; r++) {
-            for (let c = 0; c < image.height; c++) {
-                
-
-
-            }
-        }
-    }
-
     export class Location {
         constructor(public column : number, public row:number) {}
     };
@@ -113,29 +102,6 @@ namespace tilemap_util {
 
 namespace box {
 
-
-    class BoxFinishedVisitor {
-
-        private visitedBoxes : box.Box[]
-
-        private allFinished = true;
-
-        public visit(box:SubBox) {
-            if (this.visitedBoxes.indexOf(box) != -1) {
-                // visited
-                return
-            } else {
-                this.visitedBoxes.push(box)
-                box.isFinished(this)
-            }
-        }
-
-    }
-
-    export function isFinished(box :SubBox) : boolean {
-        return false;
-    }
-
     export interface Box {
         column(): number;
         row(): number;
@@ -146,6 +112,8 @@ namespace box {
         changeParent(newParent : Box):void;
 
     }
+
+    
 
     export enum PushedResult {
         NOT_MOVED, 
@@ -198,7 +166,7 @@ namespace box {
             
             this.containingBox = newParent
         }
-        protected constructor(protected containingBox:SubBox, column : number, row: number) {
+        protected constructor(public containingBox:SubBox, column : number, row: number) {
             this._column = column
             this._row = row
         }
@@ -214,22 +182,32 @@ namespace box {
 
     export class PlayerBox extends BaseBox {
         changeParent(newParent: SubBox) {
-            this.containingBox.removeBox(this)
-            newParent.addBox(this)
 
             this.containingBox.hideAllNonePlayerBoxes()
+            this.containingBox.removeBox(this)
+            
 
             this.containingBox = newParent
+            newParent.addBox(this)
             newParent.showAll()
         }
 
         onDirectionButtonDown(direction: number) {
+            if(direction == 0) {
+                this.sprite.setImage(assets.image`playerBoxUp`)
+            } else if (direction == 1) {
+                this.sprite.setImage(assets.image`playerBoxRight`)
+            } else if (direction == 2) {
+                this.sprite.setImage(assets.image`playerBoxDown`)
+            } else  {
+                this.sprite.setImage(assets.image`playerBoxLeft`)
+            }
             if (this.bePushedAgainst(null, direction) == box.PushedResult.NOT_MOVED) {
                 scene.cameraShake(4, 500)
             }
         }
 
-        public constructor(protected containingBox:SubBox, column: number, row: number) {
+        public constructor(public containingBox:SubBox, column: number, row: number) {
             super(containingBox, column, row)
             this.sprite = sprites.create(assets.image`playerBoxNormal`)
             scene.cameraFollowSprite(this.sprite)
@@ -254,8 +232,7 @@ namespace box {
                 let directionVector = DIRECTION_VECTORS[direction]
                 this._column += directionVector[0]
                 this._row += directionVector[1]
-                this.sprite.x += directionVector[0] * 16
-                this.sprite.y += directionVector[1] * 16
+                this.place(this.column(), this.row())
                 info.changeScoreBy(1)
             } else if (result == PushedResult.PARENT_CHANGED) {
                 this.containingBox.load()
@@ -273,7 +250,7 @@ namespace box {
         private static NORMAL_IMAGE:Image = null
         private static IN_PLACE_IMAGE:Image = null
 
-        public constructor(protected containingBox: SubBox, column: number, row: number) {
+        public constructor(public containingBox: SubBox, column: number, row: number) {
             super(containingBox, column, row)
             this.sprite = sprites.create(this.getSpriteImage(false, false))
             this.place(column, row)
@@ -310,10 +287,13 @@ namespace box {
         }
     }
 
+
     export class SubBox extends BaseBox {
-        private internalTilemap : tiles.WorldMap = null // internal
+        protected internalTilemap : tiles.WorldMap = null // internal
         private boxes:BaseBox[]
         private targetTiles : tilemap_util.Location[]
+
+        private destoryed = false;
 
         private edgeTiles : number[][]
 
@@ -332,8 +312,11 @@ namespace box {
         }
 
         hideAllNonePlayerBoxes() {
-            for (let box of this.boxes) {                
-                box.hide()
+            for (let box of this.boxes) {    
+                if (!(box instanceof PlayerBox)) {
+                    box.hide()
+                }
+                
             }
         }
         showAll() {
@@ -343,7 +326,11 @@ namespace box {
         }
 
         addBox(box:BaseBox) {
-            this.boxes.push(box)
+            box.containingBox = this
+            if (this.boxes.indexOf(box) == -1) {
+                this.boxes.push(box)
+            }
+            
         }
 
         getSpriteImage(inPlace: boolean,  omitDetail : boolean): Image { 
@@ -355,7 +342,7 @@ namespace box {
             return result;
         }
         
-        public constructor(protected containingBox: SubBox, column: number, row: number, tilemap : tiles.TileMapData) {
+        public constructor(public containingBox: SubBox, column: number, row: number, tilemap : tiles.TileMapData) {
             super(containingBox, column , row)
             this.boxes = []
             this.targetTiles = []
@@ -392,11 +379,14 @@ namespace box {
         }
 
         public destroy() : void {
+            if (this.destoryed) {
+                return
+            }
+            this.destoryed = true
             super.destroy()
             for (let box of this.boxes) {
                 box.destroy()
             }
-
         }
 
         private getTileIndex(image:Image) :number {
@@ -431,11 +421,16 @@ namespace box {
         }
 
         public tryToEnter(box : Box, direction : number) :PushedResult{
+            let edgeTileOfDirection = this.edgeTiles[(direction+2) % 4] // enter in the opposite edge
+            if (edgeTileOfDirection == null) {
+                // no entrance at that direction 
+                return PushedResult.NOT_MOVED
+            }
+
             let originalColumn = box.column()
             let originalRow = box.row()
             box.changeParent(this)
 
-            let edgeTileOfDirection = this.edgeTiles[(direction+2) % 4] // enter in the opposite edge
             box.place(edgeTileOfDirection[0], edgeTileOfDirection[1])
             let result = box.bePushedAgainst(null, direction)
             if (result == PushedResult.MOVED) {
@@ -484,19 +479,18 @@ namespace box {
 
             let subBoxesTiles = tilemap_util.locationsOf(this.internalTilemap.tilemap, assets.tile`subBoxTile`)
             for (let subBoxTile of subBoxesTiles) {
+                
                 // TODO 
                 // 1. load level config by meta-data
-                let subBox = new box.SubBox(this, subBoxTile.column, subBoxTile.row, assets.tilemap`SubBoxInLevel7`)
+                // let subBox = new box.SubBox(this, subBoxTile.column, subBoxTile.row, assets.tilemap`SubBoxInLevel7`)
+                // // loop bind
+                // this._column = 4
+                // this._row = 5
+                // subBox.addBox(this)
+                // this.containingBox = subBox
+                // subBox.place(subBoxTile.column, subBoxTile.row)
+                // this.boxes.push(subBox)
 
-                // loop bind
-                this._column = 4
-                this._row = 5
-                subBox.addBox(this)
-                this.containingBox = subBox
-                
-
-                subBox.place(subBoxTile.column, subBoxTile.row)
-                this.boxes.push(subBox)
                 this.internalTilemap.tilemap.setTile(subBoxTile.column, subBoxTile.row, commonFloor)
             }
         }
@@ -535,16 +529,16 @@ namespace box {
 
 
         // visitor mode box should accept a visitor, remembering visitor boxes
-        public isFinished(visitor: BoxFinishedVisitor) {
+        public isFinished() {
 
             // check all internal boxes finished.
-            for (let box of this.boxes) {
-                if (box instanceof SubBox) {
-                    if (!(box as SubBox).isFinished(visitor)) {
-                        return false;
-                    }
-                }
-            }
+            // for (let box of this.boxes) {
+            //     if (box instanceof SubBox) {
+            //         if (!(box as SubBox).isFinished(visitor)) {
+            //             return false;
+            //         }
+            //     }
+            // }
             
             // check this box finished
             for (let targetTile of this.targetTiles) {
@@ -571,7 +565,17 @@ namespace box {
             } else if (this.internalTilemap.tilemap.isWall(targetColumn, targetRow)) {
                 return PushedResult.NOT_MOVED
             } else if (this.internalTilemap.tilemap.getTile(targetColumn, targetRow) == this.getTileIndex(assets.tile`edgeTile`)) {
+                if (pushedBox == this) {
+                    let infinityBox = new InfinityBox()
+                    this.changeParent(infinityBox)
+                    this.addBox(infinityBox)
+
+                    game.splash("You just invent infinity.")
+                }
+
                 if (this.tryToLeave(pushedBox, this.containingBox, direction) == PushedResult.PARENT_CHANGED) {
+                    // should update sprite image
+                    this.containingBox.sprite.setImage(this.containingBox.getSpriteImage(false, true))
                     return PushedResult.PARENT_CHANGED
                 }
                 return PushedResult.NOT_MOVED
@@ -580,6 +584,15 @@ namespace box {
             }          
         }
     }
+
+    export class InfinityBox extends SubBox {
+
+        public constructor() {
+            super(null, 0, 0, assets.tilemap`infinityLevel`)
+        }
+
+    }
+
 
 
 }

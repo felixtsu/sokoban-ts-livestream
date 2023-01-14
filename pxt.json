@@ -4,8 +4,7 @@
     "dependencies": {
         "device": "*",
         "tilemaps": "github:microsoft/pxt-tilemaps#v1.12.0",
-        "arcade-minimap": "github:microsoft/arcade-minimap#v0.6.1",
-        "arcade-shader": "github:riknoll/arcade-shader#d2a2572906fdb68ff429f337e30606b069e688ea"
+        "arcade-minimap": "github:microsoft/arcade-minimap#v0.6.1"
     },
     "files": [
         "main.blocks",

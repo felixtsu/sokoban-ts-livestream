@@ -1,9 +1,4 @@
 {
-    "image1": {
-        "data": "hwQQABAAAAAAIiIiIiIiIiAiIjIyIiIiIiIiMjIiIiIiIyIyMiIiIiIjIiIyIiIiIiMiIiIiIiIiIyIiIiIiIiIjIiIiIiIiIiMiIiIiIiIiIyIiIiIiIiIjIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiICIiIiIiIiIAIiIiIiIiIg==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "playerBoxNormal"
-    },
     "image2": {
         "data": "hwQQABAAAABVVVVVVVVVVUVERERERERURURERERERFRFREREREREVEVERERERERURURERERERFRFREREREREVEVERERERERURURERERERFRFREREREREVEVERERERERURURERERERFRFREREREREVEVERERERERURURERERERFRVVVVVVVVVVQ==",
         "mimeType": "image/x-mkcd-f4",
@@ -18,6 +13,31 @@
         "data": "hwQQABAAAABEREREREREROTu7u7u7u5O5O7u7u7u7k7k7u7u7u7uTuTu7u7u7u5O5O7u7u7u7k7k7u7u7u7uTuTu7u7u7u5O5O7u7u7u7k7k7u7u7u7uTuTu7u7u7u5O5O7u7u7u7k7k7u7u7u7uTuTu7u7u7u5O5O7u7u7u7k5ERERERERERA==",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "basicBoxInPlaceImage"
+    },
+    "image1": {
+        "data": "hwQQABAAAAAAIiIiIiIiIiAiIiIiIiIiIiIiIiIiIiIiIiIzMyIiIiIiIjMzIiIiIiIiMzMiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIjMzIiIiIiIiMzMiIiIiIiIzMyIiIiIiIiIiIiIiICIiIiIiIiIAIiIiIiIiIg==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "playerBoxNormal"
+    },
+    "image5": {
+        "data": "hwQQABAAAAAAIiIiIiIiIiAiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMzMiIiIiIiIzMyIiIiIiIjMzIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIzMyIiIiIiIjMzIiIiICIiMzMiIiIAIiIiIiIiIg==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "playerBoxRight"
+    },
+    "image6": {
+        "data": "hwQQABAAAAAAIiIiIiIiIiAiIjMzIiIiIiIiMzMiIiIiIiIzMyIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMzMiIiIiIiIzMyIiIiIiIjMzIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiICIiIiIiIiIAIiIiIiIiIg==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "playerBoxLeft"
+    },
+    "image7": {
+        "data": "hwQQABAAAAAAIiIiIiIiAiAiIiIiIiIiIiIiIiIiIiIiIiIiIjIzIyIiIiIiMjMjIiIiIiIyMyMiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMjMjIiIiIiIyMyMiIiIiIjIzIyIiIiIiIiIiICIiIiIiIiIAIiIiIiIiAg==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "playerBoxDown"
+    },
+    "image8": {
+        "data": "hwQQABAAAAAAIiIiIiIiAiAiIiIiIiIiIiIiIiIiIiIyMyMiIiIiIjIzIyIiIiIiMjMjIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIjIzIyIiIiIiMjMjIiIiIiIyMyMiIiIiIiIiIiIiIiIiICIiIiIiIiIAIiIiIiIiAg==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "playerBoxUp"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",
