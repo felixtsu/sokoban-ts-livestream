@@ -43,7 +43,7 @@ namespace tilemap_util {
         const minimap: Image = image.create(
             16,16)
         
-        let edgeTileImageIndex = tilemap_util.getTileIndexes(tilemap, [assets.tile`edgeTile`])[0]
+        let edgeTileImageIndexex = tilemap_util.getTileIndexes(tilemap, [assets.tile`edgeTile`, assets.tile`edgeEntranceTile`])
 
 
         for (let r = 0; r < numRows; r++) {
@@ -62,7 +62,7 @@ namespace tilemap_util {
                 }
                 if (tile==null) {
                     const idx = tilemap.getTile(c, r)
-                    if (idx == edgeTileImageIndex) {
+                    if (edgeTileImageIndexex.indexOf(idx) != -1) {
                         continue
                     }
                     tile = tilemap.getTileImage(idx)
@@ -123,10 +123,9 @@ namespace box {
 
     export class BaseBox implements Box {
        
-        protected _column: number;
-        protected _row: number;
+         _column: number;
+         _row: number;
 
-    
         sprite:Sprite
 
         public place(column:number, row:number):void {
@@ -353,7 +352,7 @@ namespace box {
             }
 
             this.edgeTiles = [null, null, null, null]
-            let edgeTileImageIndex = this.getTileIndex(assets.tile`edgeTile`)
+            let edgeTileImageIndex = this.getTileIndex(assets.tile`edgeEntranceTile`)
             let tileMap = this.internalTilemap.tilemap
             let width = tileMap.width
             let height = tileMap.height
@@ -564,7 +563,8 @@ namespace box {
                 return result
             } else if (this.internalTilemap.tilemap.isWall(targetColumn, targetRow)) {
                 return PushedResult.NOT_MOVED
-            } else if (this.internalTilemap.tilemap.getTile(targetColumn, targetRow) == this.getTileIndex(assets.tile`edgeTile`)) {
+            } else if (this.internalTilemap.tilemap.getTile(targetColumn, targetRow) == this.getTileIndex(assets.tile`edgeEntranceTile`)
+                || this.internalTilemap.tilemap.getTile(targetColumn, targetRow) == this.getTileIndex(assets.tile`edgeTile`)) {
                 if (pushedBox == this) {
                     let infinityBox = new InfinityBox()
                     this.changeParent(infinityBox)

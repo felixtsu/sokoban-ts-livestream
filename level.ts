@@ -8,6 +8,7 @@ namespace level{
         simpleTilemapLevel(assets.tilemap`level3`),
         prepareLevel4(),
         prepareLevel5(),
+        prepareLevel6(),
         prepareLevel7()
     ]
 
@@ -17,11 +18,6 @@ namespace level{
         private levelLoader: (level: Level) =>void
         private levelCleaner: (boxes: box.SubBox[]) => void
 
-        static DEFAULT_LEVEL_CLEANER = (boxes:box.SubBox[]) => {
-            for (let box of boxes) {
-                box.destroy()
-            }
-        }
         public constructor() {
             this.boxes = []
         }
@@ -40,8 +36,10 @@ namespace level{
             if (this.levelCleaner) {
                 this.levelCleaner(this.boxes)
             } else {
-                Level.DEFAULT_LEVEL_CLEANER(this.boxes)
-                return;
+                for (let box of this.boxes) {
+                    box.destroy()
+                }
+                this.boxes = []
             }
         }
 
@@ -125,5 +123,25 @@ namespace level{
         return level
     }
 
+    function prepareLevel6() {
+        let level = new Level()
+        level.addLevelLoader((level: Level) => {
+            let mainlevelBox = new box.SubBox(null, 0, 0, assets.tilemap`level12`)
+            let subLevelBox_1 = new box.SubBox(mainlevelBox, 6, 4, assets.tilemap`subBoxLevel12_1`)
+            let subLevelBox_2 = new box.SubBox(mainlevelBox, 5, 4, assets.tilemap`subBoxLevel12_2`)
+            level.registerBox(mainlevelBox)
+            level.registerBox(subLevelBox_1)
+            level.registerBox(subLevelBox_2)
+            mainlevelBox.addBox(subLevelBox_1)
+            mainlevelBox.addBox(subLevelBox_2)
+            subLevelBox_1.init()
+            subLevelBox_2.init()
+            subLevelBox_1.place(subLevelBox_1.column(), subLevelBox_1.row())
+            subLevelBox_2.place(subLevelBox_2.column(), subLevelBox_2.row())
+            mainlevelBox.init()
+            mainlevelBox.showAll()
+        })
+        return level
+    }
 
 }
