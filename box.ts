@@ -38,7 +38,7 @@ namespace tilemap_util {
 
         const numRows = tilemap.height
         const numCols = tilemap.width
-        const tileWidth = 16 / numRows
+        const tileWidth = 32 / (numRows  + numCols)
 
         const minimap: Image = image.create(
             16,16)
@@ -276,6 +276,7 @@ namespace box {
        
 
         bePushedAgainst(box: Box, direction: number): PushedResult {
+            let originalParent = this.containingBox
             let result = this.containingBox.boxBeingPushed(this, direction)
             if (result == PushedResult.MOVED) {
                 let directionVector = DIRECTION_VECTORS[direction]
@@ -284,7 +285,10 @@ namespace box {
                 this.place(this._column, this._row)               
                 return PushedResult.MOVED
             } else if (result == PushedResult.PARENT_CHANGED) {
-                this.sprite.setFlag(SpriteFlag.Invisible, true)
+                if (originalParent != this.containingBox) {
+                    //  如果这个被改成的parent不是当前的，才变成invisible
+                    this.hide()
+                }
                 return PushedResult.MOVED
             } else if ( result == PushedResult.OUT_OF_THE_CURRENT_BOX_LOOP) {
                 return PushedResult.MOVED
@@ -355,7 +359,7 @@ namespace box {
             this.internalTilemap = tiles.createMap(tilemap)
             this.sprite = sprites.create(assets.image`subBoxNormalImage`)
             if (containingBox == null) {
-                this.sprite.setFlag(SpriteFlag.Invisible, true)
+                this.hide()
             }
 
             this.edgeTiles = [null, null, null, null]
@@ -423,11 +427,16 @@ namespace box {
                 } else {
                     return PushedResult.PARENT_CHANGED
                 }
-                
-            } else {
+            } else if(result == PushedResult.NOT_MOVED) {
                 box.changeParent(this)
                 box.place(originalColumn, originalRow)
                 return result
+            } else if (result == PushedResult.PARENT_CHANGED){ 
+                // 这个地方经常出现bug，需要留意
+                // 这个判断是需要业务语义上决定遇到Parant_Change和Moved有不同的操作
+                return PushedResult.PARENT_CHANGED
+            } else {
+                return PushedResult.MOVED
             }
         }
 
@@ -495,6 +504,7 @@ namespace box {
         }
 
         public bePushedAgainst(pushingBox: Box, direction: number): PushedResult {
+            let originalParent = this.containingBox
             let result = this.containingBox.boxBeingPushed(this, direction);
             if (result == PushedResult.NOT_MOVED) {
                 if (this.tryToEnter(pushingBox, direction) == PushedResult.PARENT_CHANGED) {
@@ -511,10 +521,15 @@ namespace box {
                 this.place(this.column(), this.row())
                 return result;
             }  else if (result == PushedResult.PARENT_CHANGED) {
-                this.hide()
+                if (originalParent != this.containingBox) {
+                    this.hide()
+                }
+                return PushedResult.MOVED
+            } else {
+                // 自己是LOOP的话，应该告诉别人自己被移动了
                 return PushedResult.MOVED
             }
-            return result 
+            
         }
         
         private boxAt(column : number, row:number) :Box {

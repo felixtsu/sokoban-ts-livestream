@@ -235,17 +235,27 @@ namespace myTiles {
 . 2 2 2 2 2 . 
 . . . . . . . 
 `, [myTiles.transparency16,myTiles.tile5,myTiles.tile11,myTiles.tile10,myTiles.tile4], TileScale.Sixteen);
+            case "level14":
+            case "subBoxLevel12_3":return tiles.createTilemap(hex`0700070000010104010100010202020202010102020502020104020203020204010202020202010102020202020100010104010100`, img`
+. . . . . . . 
+. . . . . . . 
+. . . . . . . 
+. . . 2 . . . 
+. . . . . . . 
+. . . . . . . 
+. . . . . . . 
+`, [myTiles.transparency16,myTiles.tile5,myTiles.tile11,myTiles.tile10,myTiles.tile4,myTiles.tile7], TileScale.Sixteen);
             case "level7":
-            case "level7":return tiles.createTilemap(hex`0c000a00000000000000000000000000000000000000000202020200000000000000000201010200000202020202020202040200060404040305040404040200000204040202020202040200000204040200000002040200000204040200000002010200000202020200000002020200000000000000000000000000`, img`
+            case "level7":return tiles.createTilemap(hex`0c000a00000000000000000000000000000000000000000202020200000000000000000201010200000202020202020202040200060404040404040404040200000202040305040402040200000002040404040402040200000002020202020202010200000000000000000002020200000000000000000000000000`, img`
 . . . . . . . . . . . . 
 . . . . . . . 2 2 2 2 . 
 . . . . . . . 2 . . 2 . 
 . 2 2 2 2 2 2 2 2 . 2 . 
 . . . . . . . . . . 2 . 
-. 2 . . 2 2 2 2 2 . 2 . 
-. 2 . . 2 . . . 2 . 2 . 
-. 2 . . 2 . . . 2 . 2 . 
-. 2 2 2 2 . . . 2 2 2 . 
+. 2 2 . . . . . 2 . 2 . 
+. . 2 . . . . . 2 . 2 . 
+. . 2 2 2 2 2 2 2 . 2 . 
+. . . . . . . . 2 2 2 . 
 . . . . . . . . . . . . 
 `, [myTiles.transparency16,myTiles.tile1,myTiles.tile6,myTiles.tile7,myTiles.tile11,myTiles.tile8,myTiles.tile4], TileScale.Sixteen);
         }

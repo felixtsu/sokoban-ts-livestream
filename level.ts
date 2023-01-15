@@ -6,10 +6,11 @@ namespace level{
         // simpleTilemapLevel(assets.tilemap`level1`),
         // simpleTilemapLevel(assets.tilemap`level8`),
         // simpleTilemapLevel(assets.tilemap`level3`),
-        // prepareLevel4(),
-        // prepareLevel5(),
-        // prepareLevel6(),
-        prepareLevel7()
+        prepareLevel4(),
+        prepareLevel5(),
+        prepareLevel6(),
+        prepareLevel7(),
+        prepareLevel8()
     ]
 
     export class Level {
@@ -74,24 +75,7 @@ namespace level{
         return level
     }
 
-    function prepareLevel7() {
-        let level = new Level()
-        level.addLevelLoader((level: Level)=>{
-            let mainlevelBox = new box.SubBox(null, 4, 5, assets.tilemap`level7`)
-            let subLevelBox = new box.SubBox(mainlevelBox, 6, 4, assets.tilemap`SubBoxInLevel7`)
-            level.registerBox(mainlevelBox)
-            level.registerBox(subLevelBox)
-
-            subLevelBox.init()
-            mainlevelBox.addBox(subLevelBox)
-            subLevelBox.addBox(mainlevelBox)
-            mainlevelBox.place(mainlevelBox.column(), mainlevelBox.row())
-            subLevelBox.place(subLevelBox.column(), subLevelBox.row())
-            mainlevelBox.init()
-            mainlevelBox.showAll()
-        })  
-        return level
-    }
+    
     function prepareLevel4() {
         let level = new Level()
         level.addLevelLoader((level: Level) => {
@@ -134,6 +118,47 @@ namespace level{
             level.registerBox(subLevelBox_2)
             mainlevelBox.addBox(subLevelBox_1)
             mainlevelBox.addBox(subLevelBox_2)
+            subLevelBox_1.init()
+            subLevelBox_2.init()
+            subLevelBox_1.place(subLevelBox_1.column(), subLevelBox_1.row())
+            subLevelBox_2.place(subLevelBox_2.column(), subLevelBox_2.row())
+            mainlevelBox.init()
+            mainlevelBox.showAll()
+        })
+        return level
+    }
+
+    function prepareLevel7() {
+        let level = new Level()
+        level.addLevelLoader((level: Level) => {
+            let mainlevelBox = new box.SubBox(null, 4, 5, assets.tilemap`level7`)
+            let subLevelBox = new box.SubBox(mainlevelBox, 6, 4, assets.tilemap`SubBoxInLevel7`)
+            level.registerBox(mainlevelBox)
+            level.registerBox(subLevelBox)
+
+            subLevelBox.init()
+            mainlevelBox.addBox(subLevelBox)
+            subLevelBox.addBox(mainlevelBox)
+            mainlevelBox.place(mainlevelBox.column(), mainlevelBox.row())
+            subLevelBox.place(subLevelBox.column(), subLevelBox.row())
+            mainlevelBox.init()
+            mainlevelBox.showAll()
+        })
+        return level
+    }
+
+    function prepareLevel8() {
+        let level = new Level()
+        level.addLevelLoader((level: Level) => {
+            let mainlevelBox = new box.SubBox(null, 3, 3, assets.tilemap`level14`)
+            let subLevelBox_1 = new box.SubBox(mainlevelBox, 2, 4, assets.tilemap`subBoxLevel12_1`)
+            let subLevelBox_2 = new box.SubBox(mainlevelBox, 4, 4, assets.tilemap`subBoxLevel12_2`)
+            level.registerBox(mainlevelBox)
+            level.registerBox(subLevelBox_1)
+            level.registerBox(subLevelBox_2)
+            mainlevelBox.addBox(subLevelBox_1)
+            mainlevelBox.addBox(subLevelBox_2)
+            subLevelBox_1.addBox(mainlevelBox)
             subLevelBox_1.init()
             subLevelBox_2.init()
             subLevelBox_1.place(subLevelBox_1.column(), subLevelBox_1.row())
