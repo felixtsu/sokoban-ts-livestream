@@ -236,18 +236,6 @@
         ],
         "displayName": "SubBoxInLevel5"
     },
-    "SubBoxInLevel3": {
-        "id": "SubBoxInLevel3",
-        "mimeType": "application/mkcd-tilemap",
-        "data": "MTAwYTAwMGEwMDAwMDAwMDAwMDAwMzAwMDAwMDAwMDAwMTAxMDEwMTAyMDEwMTAwMDAwMDAxMDEwMTAxMDIwMTAxMDAwMDAwMDEwMTAxMDEwMjAxMDEwMDAwMDAwMTAxMDEwMTAyMDEwMTAwMDAwMzAyMDIwMjAyMDIwMTAxMDAwMDAwMDEwMTAyMDIwMjAxMDEwMDAwMDAwMTAxMDEwMTAxMDEwMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjAyMDAwMDAwMDIwMjAwMDAwMDAyMDIwMDIwMjIwMjAyMDAwMDAwMDAwMjAwMjAwMjAwMDIwMDAwMjIyMjAyMDAwMDAwMDAwMDAwMDAwMDAwMDAwMA==",
-        "tileset": [
-            "myTiles.transparency16",
-            "myTiles.tile10",
-            "myTiles.tile11",
-            "myTiles.tile4"
-        ],
-        "displayName": "SubBoxInLevel7"
-    },
     "subBoxLevel1": {
         "id": "subBoxLevel1",
         "mimeType": "application/mkcd-tilemap",
@@ -329,6 +317,18 @@
             "myTiles.tile4"
         ],
         "displayName": "level7"
+    },
+    "SubBoxInLevel3": {
+        "id": "SubBoxInLevel3",
+        "mimeType": "application/mkcd-tilemap",
+        "data": "MTAwYTAwMGEwMDAwMDAwMDAwMDAwMzAwMDAwMDAwMDAwMTAxMDEwMTAyMDEwMTAwMDAwMDAxMDEwMTAxMDIwMTAxMDAwMDAwMDEwMTAxMDEwMjAxMDEwMDAwMDAwMTAxMDEwMjAyMDEwMTAwMDAwMzAyMDIwMjAyMDIwMTAxMDAwMDAwMDEwMTAyMDIwMjAxMDEwMDAwMDAwMTAxMDEwMjAyMDEwMTAwMDAwMDAxMDEwMTAxMDIwMTAxMDAwMDAwMDAwMDAwMDAwMzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjAyMDAwMDAwMDIwMjAwMDAyMDAyMDIwMDIwMjIwMDAyMDAwMDAwMDAwMjAwMjAwMjAwMDIwMDAwMjIwMDAyMDAwMDIwMDIwMjAwMDAwMDAwMDAwMA==",
+        "tileset": [
+            "myTiles.transparency16",
+            "myTiles.tile10",
+            "myTiles.tile11",
+            "myTiles.tile4"
+        ],
+        "displayName": "SubBoxInLevel7"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",
