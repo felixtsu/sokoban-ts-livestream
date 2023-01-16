@@ -16,6 +16,7 @@ LEFT
 ]
 info.setScore(0)
 controller.menu.onEvent(ControllerButtonEvent.Pressed, reloadCurrentLevel)
+
 game.onUpdateInterval(10, function () {
     if (currentLevel == null) {
         currentLevel = level.LEVELS[currentLevelNo]

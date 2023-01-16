@@ -2,6 +2,13 @@
 namespace utils {
 
 
+    export function duplicate(tilemap : tiles.TileMapData) {
+        let temp = tiles.createMap(tilemap)
+        let ret = tiles.copyMap(temp)
+        return ret.tilemap
+        
+    }
+
     const palette = hex`0F0D0A0B0E0408060C060B0C0F0B0C0F`
 
     let screenRowsBuffer : Buffer
