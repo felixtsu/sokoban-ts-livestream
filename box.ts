@@ -228,7 +228,11 @@ namespace box {
         }
 
         public bePushedAgainst(box: Box, direction: number): PushedResult {
-            let result = this.containingBox.boxBeingPushed(this, direction) 
+            if (box != null) {
+                return PushedResult.NOT_MOVED
+            }
+
+            let result = this.containingBox.boxBeingPushed(this, direction, null) 
             if (result == PushedResult.MOVED) {
                 let directionVector = DIRECTION_VECTORS[direction]
                 this._column += directionVector[0]
@@ -277,7 +281,7 @@ namespace box {
 
         bePushedAgainst(box: Box, direction: number): PushedResult {
             let originalParent = this.containingBox
-            let result = this.containingBox.boxBeingPushed(this, direction)
+            let result = this.containingBox.boxBeingPushed(this, direction, box)
             if (result == PushedResult.MOVED) {
                 let directionVector = DIRECTION_VECTORS[direction]
                 this._column += directionVector[0]
@@ -412,10 +416,12 @@ namespace box {
         }
 
         public tryToLeave(box: Box, destination : Box, direction: number): PushedResult{
+            
+
             let originalColumn = box.column()
             let originalRow = box.row()
+            
             box.changeParent(destination)
-
             let targetColumn = this.column() 
             let targetRow = this.row() 
             box.place(targetColumn, targetRow)
@@ -440,7 +446,9 @@ namespace box {
             }
         }
 
-        public tryToEnter(box : Box, direction : number) :PushedResult{
+        public tryToEnter(box: Box, direction: number) :PushedResult{
+            
+
             let edgeTileOfDirection = this.edgeTiles[(direction+2) % 4] // enter in the opposite edge
             if (edgeTileOfDirection == null) {
                 // no entrance at that direction 
@@ -504,9 +512,13 @@ namespace box {
         }
 
         public bePushedAgainst(pushingBox: Box, direction: number): PushedResult {
+            
             let originalParent = this.containingBox
-            let result = this.containingBox.boxBeingPushed(this, direction);
+            let result = this.containingBox.boxBeingPushed(this, direction, pushingBox);
             if (result == PushedResult.NOT_MOVED) {
+                if (pushingBox == null) {
+                    return PushedResult.NOT_MOVED
+                }
                 if (this.tryToEnter(pushingBox, direction) == PushedResult.PARENT_CHANGED) {
                     // TODO should update sprite image according to location and status
                     this.sprite.setImage(this.getSpriteImage(false, false))
@@ -557,18 +569,14 @@ namespace box {
             return true
         }
 
-        public boxBeingPushed(pushedBox: Box, direction: number): PushedResult {
+        public boxBeingPushed(pushedBox: Box, direction: number, pushingBox : Box): PushedResult {
             let directionVector = DIRECTION_VECTORS[direction]
             let targetColumn = pushedBox.column() + directionVector[0]
             let targetRow = pushedBox.row() + directionVector[1]
             let boxAtTarget = this.boxAt(targetColumn, targetRow)
             if (boxAtTarget != null) {
                 let result =  boxAtTarget.bePushedAgainst(pushedBox, direction)
-                if (result == PushedResult.PARENT_CHANGED) {
-                    return PushedResult.PARENT_CHANGED
-                } else {
-                    return result
-                }
+                return result 
             } else if (this.internalTilemap.tilemap.isWall(targetColumn, targetRow)) {
                 return PushedResult.NOT_MOVED
             } else if (this.internalTilemap.tilemap.getTile(targetColumn, targetRow) == this.getTileIndex(assets.tile`edgeEntranceTile`)

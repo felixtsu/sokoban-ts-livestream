@@ -123,7 +123,7 @@ namespace level{
     }
 
     function prepareLevel6() {
-        let level = new Level("menu resets boxes...")
+        let level = new Level("MENU resets boxes...")
         level.addLevelLoader((level: Level) => {
             let mainlevelBox = new box.SubBox(null, 0, 0, assets.tilemap`level12`)
             let subLevelBox_1 = new box.SubBox(mainlevelBox, 6, 4, assets.tilemap`subBoxLevel12_1`)
@@ -187,9 +187,9 @@ namespace level{
     function prepareLevel9() {
         let level = new Level("same (hard) as the last one...")
         level.addLevelLoader((level: Level) => {
-            let mainlevelBox = new box.SubBox(null, 5, 4, assets.tilemap`level16`)
-            let subLevelBox_1 = new box.SubBox(mainlevelBox, 4, 4, assets.tilemap`SubBoxLShape`)
-            let subLevelBox_2 = new box.SubBox(mainlevelBox, 3, 4, assets.tilemap`SubBoxLShapeLD`)
+            let mainlevelBox = new box.SubBox(null, 7, 4, assets.tilemap`level16`)
+            let subLevelBox_1 = new box.SubBox(mainlevelBox, 6, 4, assets.tilemap`SubBoxLShape`)
+            let subLevelBox_2 = new box.SubBox(mainlevelBox, 5, 4, assets.tilemap`SubBoxLShapeLD`)
             let subLevelBox_3 = new box.SubBox(mainlevelBox, 2, 2, assets.tilemap`level14`)
             level.registerBox(mainlevelBox)
             level.registerBox(subLevelBox_1)
