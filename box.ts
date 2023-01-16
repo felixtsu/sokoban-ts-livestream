@@ -416,8 +416,6 @@ namespace box {
         }
 
         public tryToLeave(box: Box, destination : Box, direction: number): PushedResult{
-            
-
             let originalColumn = box.column()
             let originalRow = box.row()
             
@@ -425,6 +423,34 @@ namespace box {
             let targetColumn = this.column() 
             let targetRow = this.row() 
             box.place(targetColumn, targetRow)
+
+            if ( this == destination) {
+                // if already at edge, 
+
+                let directionVector = DIRECTION_VECTORS[direction]
+                let resultColumn = targetColumn + directionVector[0]
+                let resultRow = targetRow + directionVector[1]
+                let edgeTileIndexes = tilemap_util.getTileIndexes(this.internalTilemap.tilemap, [assets.tile`edgeTile`, assets.tile`edgeEntranceTile`])
+
+                let targetTile = this.internalTilemap.tilemap.getTile(resultColumn, resultRow)
+
+                        
+                for (let index of edgeTileIndexes) {
+                    if (targetTile == index) {
+                        let infinityBox = new InfinityBox()
+                        this.changeParent(infinityBox)
+                        infinityBox.addBox(this)
+                        infinityBox.addBox(box as BaseBox)
+                        this.hideAllNonePlayerBoxes()
+
+                        game.showLongText("You've reached the infinity...", DialogLayout.Bottom)
+
+                        return PushedResult.PARENT_CHANGED
+
+                    }
+                }
+            }
+
             let result = box.bePushedAgainst(null, direction)
             if (result == PushedResult.MOVED) {
                 if (destination == this) {
@@ -586,7 +612,7 @@ namespace box {
                     this.changeParent(infinityBox)
                     this.addBox(infinityBox)
 
-                    game.splash("You just invent infinity.")
+                    game.showLongText("You just invent infinity...", DialogLayout.Bottom)
                 }
 
                 let result = this.tryToLeave(pushedBox, this.containingBox, direction)
