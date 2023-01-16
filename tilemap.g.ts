@@ -185,14 +185,6 @@ namespace myTiles {
 . . . . . . . . . . 
 . . . . . . . . . . 
 `, [myTiles.transparency16,myTiles.tile10,myTiles.tile12,myTiles.tile4], TileScale.Sixteen);
-            case "subBoxLevel10":
-            case "subBoxLevel1":return tiles.createTilemap(hex`0500050000000000000003030303040101020300030303030000000000`, img`
-. . . . . 
-. 2 2 2 2 
-. . . . 2 
-. 2 2 2 2 
-. . . . . 
-`, [myTiles.transparency16,myTiles.tile11,myTiles.tile1,myTiles.tile10,myTiles.tile4], TileScale.Sixteen);
             case "level12":
             case "level11":return tiles.createTilemap(hex`0a000a0000000000000000000000000000000000000000000000000000000000000000020202020202020200000205030401050502000002020202020202020000000000000000000000000000000000000000000000000000000000000000000000000000000000`, img`
 . . . . . . . . . . 
@@ -206,14 +198,6 @@ namespace myTiles {
 . . . . . . . . . . 
 . . . . . . . . . . 
 `, [myTiles.transparency16,myTiles.tile3,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile11], TileScale.Sixteen);
-            case "subBoxLevel12_2":
-            case "subBoxLevel3":return tiles.createTilemap(hex`0500050000000000000404040400040201010304040404000000000000`, img`
-. . . . . 
-2 2 2 2 . 
-2 . . . . 
-2 2 2 2 . 
-. . . . . 
-`, [myTiles.transparency16,myTiles.tile11,myTiles.tile1,myTiles.tile4,myTiles.tile12], TileScale.Sixteen);
             case "subBoxLevel12_1":
             case "subBoxLevel2":return tiles.createTilemap(hex`0700070000000000000000000404040404000102020202040003020202020400010202020204000004040404040000000000000000`, img`
 . . . . . . . 
@@ -287,6 +271,22 @@ namespace myTiles {
 . . . 2 2 . 2 . . . 
 . . . . . . . . . . 
 `, [myTiles.transparency16,myTiles.tile10,myTiles.tile11,myTiles.tile4], TileScale.Sixteen);
+            case "subBoxLevel10":
+            case "subBoxLevel1":return tiles.createTilemap(hex`0500050000030303030003030303040101020300030303030003030303`, img`
+. . . . . 
+. 2 2 2 2 
+. . . . 2 
+. 2 2 2 2 
+. . . . . 
+`, [myTiles.transparency16,myTiles.tile11,myTiles.tile1,myTiles.tile10,myTiles.tile4], TileScale.Sixteen);
+            case "subBoxLevel12_2":
+            case "subBoxLevel3":return tiles.createTilemap(hex`0500050004040404000404040400040201010304040404000404040400`, img`
+. . . . . 
+2 2 2 2 . 
+2 . . . . 
+2 2 2 2 . 
+. . . . . 
+`, [myTiles.transparency16,myTiles.tile11,myTiles.tile1,myTiles.tile4,myTiles.tile12], TileScale.Sixteen);
         }
         return null;
     })

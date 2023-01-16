@@ -19,6 +19,7 @@ namespace level{
         private levelLoader: (level: Level) =>void
         private levelCleaner: (boxes: box.SubBox[]) => void
 
+        private scoreBeforeGameStart : number
         private firstLoad = true
 
         private levelTitle:string
@@ -38,8 +39,11 @@ namespace level{
             this.levelLoader(this)
 
             if (this.firstLoad && this.levelTitle) {
+                this.scoreBeforeGameStart = info.score()
                 game.showLongText(this.levelTitle, DialogLayout.Bottom)
                 this.firstLoad = false
+            } else {
+                info.setScore(this.scoreBeforeGameStart)
             }
         }
 
@@ -183,7 +187,7 @@ namespace level{
     function prepareLevel9() {
         let level = new Level("same (hard) as the last one...")
         level.addLevelLoader((level: Level) => {
-            let mainlevelBox = new box.SubBox(null, 5, 2, assets.tilemap`level16`)
+            let mainlevelBox = new box.SubBox(null, 5, 4, assets.tilemap`level16`)
             let subLevelBox_1 = new box.SubBox(mainlevelBox, 4, 4, assets.tilemap`SubBoxLShape`)
             let subLevelBox_2 = new box.SubBox(mainlevelBox, 3, 4, assets.tilemap`SubBoxLShapeLD`)
             let subLevelBox_3 = new box.SubBox(mainlevelBox, 2, 2, assets.tilemap`level14`)

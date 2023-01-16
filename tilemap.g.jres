@@ -242,19 +242,6 @@
         ],
         "displayName": "SubBoxInLevel5"
     },
-    "subBoxLevel1": {
-        "id": "subBoxLevel1",
-        "mimeType": "application/mkcd-tilemap",
-        "data": "MTAwNTAwMDUwMDAwMDAwMDAwMDAwMDAzMDMwMzAzMDQwMTAxMDIwMzAwMDMwMzAzMDMwMDAwMDAwMDAwMDAwMDAwMjIyMjAwMDAwMjIyMjIwMDAwMDA=",
-        "tileset": [
-            "myTiles.transparency16",
-            "myTiles.tile11",
-            "myTiles.tile1",
-            "myTiles.tile10",
-            "myTiles.tile4"
-        ],
-        "displayName": "subBoxLevel10"
-    },
     "level11": {
         "id": "level11",
         "mimeType": "application/mkcd-tilemap",
@@ -268,19 +255,6 @@
             "myTiles.tile11"
         ],
         "displayName": "level12"
-    },
-    "subBoxLevel3": {
-        "id": "subBoxLevel3",
-        "mimeType": "application/mkcd-tilemap",
-        "data": "MTAwNTAwMDUwMDAwMDAwMDAwMDAwNDA0MDQwNDAwMDQwMjAxMDEwMzA0MDQwNDA0MDAwMDAwMDAwMDAwMDAwMDIwMjIwMjAyMDAyMDIyMDIwMDAwMDA=",
-        "tileset": [
-            "myTiles.transparency16",
-            "myTiles.tile11",
-            "myTiles.tile1",
-            "myTiles.tile4",
-            "myTiles.tile12"
-        ],
-        "displayName": "subBoxLevel12_2"
     },
     "subBoxLevel2": {
         "id": "subBoxLevel2",
@@ -374,6 +348,32 @@
             "myTiles.tile4"
         ],
         "displayName": "SubBoxInLevel7"
+    },
+    "subBoxLevel1": {
+        "id": "subBoxLevel1",
+        "mimeType": "application/mkcd-tilemap",
+        "data": "MTAwNTAwMDUwMDAwMDMwMzAzMDMwMDAzMDMwMzAzMDQwMTAxMDIwMzAwMDMwMzAzMDMwMDAzMDMwMzAzMDAwMDAwMjIyMjAwMDAwMjIyMjIwMDAwMDA=",
+        "tileset": [
+            "myTiles.transparency16",
+            "myTiles.tile11",
+            "myTiles.tile1",
+            "myTiles.tile10",
+            "myTiles.tile4"
+        ],
+        "displayName": "subBoxLevel10"
+    },
+    "subBoxLevel3": {
+        "id": "subBoxLevel3",
+        "mimeType": "application/mkcd-tilemap",
+        "data": "MTAwNTAwMDUwMDA0MDQwNDA0MDAwNDA0MDQwNDAwMDQwMjAxMDEwMzA0MDQwNDA0MDAwNDA0MDQwNDAwMDAwMDIwMjIwMjAyMDAyMDIyMDIwMDAwMDA=",
+        "tileset": [
+            "myTiles.transparency16",
+            "myTiles.tile11",
+            "myTiles.tile1",
+            "myTiles.tile4",
+            "myTiles.tile12"
+        ],
+        "displayName": "subBoxLevel12_2"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",
