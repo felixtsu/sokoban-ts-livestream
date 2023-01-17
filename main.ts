@@ -30,7 +30,7 @@ game.onUpdateInterval(10, function () {
         } else {
             currentLevelNo += 1
             currentLevel.cleanupLevel()
-currentLevel = level.LEVELS[currentLevelNo]
+            currentLevel = level.LEVELS[currentLevelNo]
             currentLevel.loadLevel()
         }
     }

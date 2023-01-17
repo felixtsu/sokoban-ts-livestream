@@ -486,7 +486,7 @@ namespace box {
             box.changeParent(this)
 
             box.place(edgeTileOfDirection[0], edgeTileOfDirection[1])
-            let result = box.bePushedAgainst(null, direction)
+            let result = box.bePushedAgainst(null, direction) // possible NPE, null --> 改为外层推动的东西
             if (result == PushedResult.MOVED) {
                 return PushedResult.PARENT_CHANGED
             } else if (result == PushedResult.NOT_MOVED) {
